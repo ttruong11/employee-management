@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
+import bcrypt from 'bcryptjs'; // Import bcryptjs for password hashing
 
 const SignupForm = () => {
   const [username, setUsername] = useState('');
@@ -13,18 +14,24 @@ const SignupForm = () => {
     e.preventDefault();
 
     try {
+      // Hash the password using bcrypt before sending it to the server
+      const hashedPassword = bcrypt.hashSync(password, 10);
+
       const response = await fetch(backendURL + '/api/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username, password, email }),
+        body: JSON.stringify({ username, password: hashedPassword, email }), // Send the hashed password
       });
 
-      if (response.ok) {
+      if (response.status === 201 || response.status === 204) {
         console.log('Registration successful!');
-        router.push('/'); // Redirect to the login page after successful registration
-        setErrorMessage('');
+        setUsername(''); // Clear the input fields
+        setPassword('');
+        setEmail('');
+        setErrorMessage(''); // Clear any previous error message
+        router.push('/'); // Redirect to the root page after successful registration
       } else {
         const errorData = await response.json();
         console.error('Registration failed:', errorData.error);

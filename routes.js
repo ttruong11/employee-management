@@ -32,12 +32,9 @@ router.post('/api/register', async (req, res) => {
         return res.status(400).json({ error: 'Username or email already exists' });
       }
   
-      // Hash the user's password using bcrypt before storing it
-      const hashedPassword = await bcrypt.hash(password, 10);
-  
-      // Insert the user's information into the users table
+      // Store the encrypted password as-is in the database
       const insertQuery = 'INSERT INTO users (username, password, email) VALUES ($1, $2, $3)';
-      const insertValues = [username, hashedPassword, email];
+      const insertValues = [username, password, email];
       await pool.query(insertQuery, insertValues);
   
       res.status(201).json({ message: 'User registered successfully' });
@@ -64,7 +61,7 @@ router.post('/api/login', async (req, res) => {
       const hashedPassword = rows[0].password;
   
       // Compare the entered password with the hashed password
-      const passwordsMatch = await bcrypt.compare(password, hashedPassword);
+      const passwordsMatch = await bcrypt.compare(hashedPasswordpassword, hashedPassword);
   
       if (passwordsMatch) {
         // Passwords match, authentication successful
@@ -78,5 +75,16 @@ router.post('/api/login', async (req, res) => {
       res.status(500).json({ error: 'Internal server error' });
     }
 });
+
+router.get('/api/users', async (req, res) => {
+    try {
+      const query = 'SELECT username FROM users'; // Adjust the query to retrieve usernames
+      const { rows } = await pool.query(query);
+      res.status(200).json(rows);
+    } catch (error) {
+      console.error('Error fetching users:', error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  });
 
 module.exports = router;

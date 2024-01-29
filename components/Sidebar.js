@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import EmployeeManagement from '../components/EmployeeManagement'; // Adjust the path as needed
+import Settings from '../components/Settings';
 
 
 const Sidebar = () => {
@@ -14,12 +15,15 @@ const Sidebar = () => {
     switch (selectedOption) {
       case 'Employee Management':
         return <EmployeeManagement />;
+      case 'Settings':
+        return <Settings />;
       // Add cases for other options as you create more components
       default:
         return null;
     }
   };
   
+
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
