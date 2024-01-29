@@ -5,7 +5,9 @@ const Settings = () => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [newUsername, setNewUsername] = useState('');
   const [newPassword, setNewPassword] = useState('');
+  const [currentPasswordFromInput, setCurrentPasswordFromInput] = useState('');
   const backendURL = process.env.NEXT_PUBLIC_BACKEND_URL;
+  const bcrypt = require('bcryptjs'); // Import bcrypt for password hashing
 
   useEffect(() => {
     // Fetch existing users here and set them in the users state
@@ -26,14 +28,70 @@ const Settings = () => {
     setNewPassword(''); // Clear the new password field
   };
 
-  const handleUpdateUsername = () => {
-    // Add logic to update the username for the selected user
-    // Make an API call to update the username
+  const handleUpdateUsername = async () => {
+    if (!selectedUser) {
+      return; // Handle the case where no user is selected
+    }
+  
+    // Check if the current password field is empty
+    if (!currentPasswordFromInput) {
+      console.error('Current password is required');
+      // Display an error message to the user
+      return;
+    }
+  
+    try {
+      // Hash the current password input on the client side
+      const hashedCurrentPassword = await bcrypt.hash(currentPasswordFromInput, 10); // 10 is the salt rounds
+  
+      // Continue with the username update and send the hashed password to the backend
+      const updateResponse = await fetch(`${backendURL}/api/users/update-username/${selectedUser.username}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ newUsername, hashedCurrentPassword }), // Send the hashed password
+      });
+  
+      if (updateResponse.ok) {
+        console.log('Username updated successfully!');
+        // Handle success, maybe update the UI or show a success message
+      } else {
+        console.error('Error updating username:', updateResponse.statusText);
+        // Handle error, display an error message to the user
+      }
+    } catch (error) {
+      console.error('Error updating username:', error);
+      // Handle error, display an error message to the user
+    }
   };
+  
+      
+  const handleUpdatePassword = async () => {
+    if (!selectedUser) {
+      return; // Handle the case where no user is selected
+    }
 
-  const handleUpdatePassword = () => {
-    // Add logic to update the password for the selected user
-    // Make an API call to update the password
+    try {
+      const response = await fetch(backendURL + `/api/users/update-username/${selectedUser.username}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ newPassword }),
+      });
+
+      if (response.ok) {
+        console.log('Password updated successfully!');
+        // Handle success, maybe update the UI or show a success message
+      } else {
+        console.error('Error updating password:', response.statusText);
+        // Handle error, display an error message to the user
+      }
+    } catch (error) {
+      console.error('Error updating password:', error);
+      // Handle error, display an error message to the user
+    }
   };
 
   return (
@@ -53,6 +111,13 @@ const Settings = () => {
                 </button>
                 {selectedUser === user && (
                   <div className="user-update-fields">
+                    <input
+                      type="password"
+                      placeholder="Current Password"
+                      value={currentPasswordFromInput}
+                      className="settings-user-input"
+                      onChange={(e) => setCurrentPasswordFromInput(e.target.value)}
+                    />
                     <input
                       type="text"
                       placeholder="New Username"

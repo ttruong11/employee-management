@@ -305,14 +305,16 @@ body {
 .settings-user-input {
   margin: 10px 0;
   padding: 10px;
-  border: none;
+  border:  solid;
   border-bottom: 1px solid #edf0ee; /* Input Border: #edf0ee (Light Gray) */
   background: transparent;
   color: #000000; /* Text Color: #ffffff */
   border-color: #27ae60; /* Green Border Color on Focus */
+  border-radius: 5px;
   font-size: 16px;
   font-family: 'Roboto', sans-serif;
   transition: color 0.3s, box-shadow 0.3s; /* Transition color and box-shadow */
+  display: flex;
 }
 
 .settings-user-input-confirm{
