@@ -18,6 +18,8 @@ const EmployeeList = () => {
           <tr>
             <th>First Name</th>
             <th>Last Name</th>
+            <th>dob</th>
+            <th>email</th>
             {/* Add more columns as needed */}
           </tr>
         </thead>
@@ -26,6 +28,8 @@ const EmployeeList = () => {
             <tr key={employee.employee_id}>
               <td>{employee.first_name}</td>
               <td>{employee.last_name}</td>
+              <td>{employee.dob}</td>
+              <td>{employee.email}</td>
               {/* Add more columns as needed */}
             </tr>
           ))}

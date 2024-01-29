@@ -99,7 +99,7 @@ const EmployeeManagement = () => {
       ) : (
         <>
           {showAddEmployeeForm ? (
-            <button className="employee-management-button" onClick={toggleAddEmployeeForm}>Hide Add Employee Form</button>
+            <button className="employee-management-button" onClick={toggleAddEmployeeForm}>Back</button>
           ) : (
             <button className="employee-management-button" onClick={toggleAddEmployeeForm}>Add New Employee</button>
           )}
@@ -173,7 +173,6 @@ const EmployeeManagement = () => {
 
       {/* Include the "View Existing Employee" button that fetches data */}
       <button className="employee-management-button" onClick={toggleEmployeeList}>View Existing Employee</button>
-
       {/* Conditional rendering of the ViewEmployeeList component */}
       {showEmployeeList && <ViewEmployeeList />}
     </div>
