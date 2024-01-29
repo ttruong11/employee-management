@@ -1,0 +1,35 @@
+services:
+  frontend:
+    build:
+      context: .
+    environment:
+      NODE_ENV: production
+    ports:
+      - 3000:3000
+    volumes:
+      - ./:/app
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    environment:
+      NODE_ENV: development
+    ports:
+      - 3001:3001
+    depends_on:
+      - postgres
+    volumes:
+      - ./:/app # Update the path to the backend directory
+  
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mydatabase
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

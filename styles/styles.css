@@ -1,0 +1,278 @@
+/* styles.module.css */
+
+html {
+    /* Set the background on the html element to cover the entire viewport */
+    background-image: url('/mountains.jpg'); /* Replace with your image path */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat; /* Prevent the background image from repeating */
+    height: 100%;
+    
+  }
+
+body {
+    /* Add body-specific styles if needed */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    overflow: hidden;
+    border-color: #27ae60; /* Green Border Color on Focus */
+  }
+
+  input {
+    outline-color: #27ae60; /* Optional: Remove the focus outline */
+  }
+  
+  .login-form-container {
+    padding: 10px 20px;
+    border-radius: 5px;
+    color: #ffffff; /* Text Color: #ffffff */
+    background: #ffffff; /* Background: #ffffff (White) */
+    font-size: 16px;
+    font-family: 'Roboto', sans-serif;
+    text-decoration: none;
+    text-transform: uppercase;
+    overflow: hidden;
+    transition: 0.5s;
+    letter-spacing: 4px;
+    box-sizing: border-box;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.281);
+    border-radius: 10px;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center horizontally */
+    justify-content: center; /* Center vertically */
+    width: 400px; /* You can adjust as needed */
+    height: 400px; /* You can adjust as needed */
+    margin-right: 40px;
+  }
+  
+  .background-banner-container{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 20%;
+    height: 100%;
+    background-color: #27ae60;
+    z-index: -1; /* Place it behind the login form container */
+  }
+
+  .login-form-container form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+  }
+  
+  .login-form-container input {
+    margin: 10px 0;
+    padding: 10px;
+    border: none;
+    border-bottom: 1px solid #edf0ee; /* Input Border: #edf0ee (Light Gray) */
+    background: transparent;
+    color: #000000; /* Text Color: #ffffff */
+    border-color: #27ae60; /* Green Border Color on Focus */
+    font-size: 16px;
+    font-family: 'Roboto', sans-serif;
+    transition: color 0.3s, box-shadow 0.3s; /* Transition color and box-shadow */
+  }
+  
+  .login-form-container input:hover {
+    box-shadow: 0 0 5px 3px rgba(39, 174, 96, 0.5); /* Green Border Shadow on Hover */
+  }
+
+  .login-form-container input:focus {
+    border-bottom: 1px solid #27ae60; /* Input Border: #edf0ee (Light Gray) */
+    border-color: #27ae60; /* Green Border Color on Focus */
+  }
+  
+  .login-form-container button {
+    margin: 5px ;
+    padding: 10px 10px;
+    border: none;
+    background: #27ae60; /* Button Background: #27ae60 (Green Theme) */
+    color: #ffffff; /* Button Text Color: #ffffff */
+    font-size: 16px;
+    font-family: 'Roboto', sans-serif;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .login-form-container button:hover {
+    background: #ffffff; /* Button Background: #27ae60 (Green Theme) */
+    color: #27ae60; /* Button Text Color: #ffffff */
+  }
+
+  .image-container {
+    /* Create a container for the image on the left */
+    flex: 1; /* Take up one-third of the available horizontal space */
+    background-size: cover; /* Make the background image cover the entire container */
+    background-position: center; /* Center the background image */
+  }
+  
+
+.background-banner-container {
+  flex: 1; /* Take up all available horizontal space */
+  background-color: #27ae60;
+  width: 500px;
+  /* Add other styles for the background banner */
+}
+
+.login-form-overlay {
+  flex: 1; /* Take up all available horizontal space */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* Add other styles for the overlay container */
+}
+
+.dashboard-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.error-message {
+  color: #ff0000; /* Red color for error message */
+  background-color: #ffffff; /* White background */
+  border-radius: 5px;
+  padding: 10px;
+  margin-top: 10px;
+  text-align: center;
+  align-items: center;
+  width: 80%; /* Adjust as needed */
+  font-family: 'Roboto', sans-serif;
+  font-size: 10px;
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.281);
+}
+
+.sidebar-toggle {
+  display: flex;
+  position: fixed;
+  top: 20px;
+  left: 20px;
+}
+
+.side-container-1 {
+  position: absolute;
+  display: inline-flex;
+  top: 35px;
+  left: 10px;
+  padding: 10px 20px;
+  border-radius: 5px;
+  color: #27ae60;
+  background: rgba(0, 0, 0, 0.5);
+  font-size: 16px;
+  font-family: 'Roboto', sans-serif;
+  text-decoration: none;
+  text-transform: uppercase;
+  overflow: hidden;
+  transition: .5s;
+  margin-top: 40px;
+  letter-spacing: 4px;
+  background: rgba(0, 0, 0, 0.5);
+  box-sizing: border-box;
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6);
+  border-radius: 10px;
+  z-index: 1; 
+  flex-direction: column;
+}
+
+.side-content-container {
+  position: absolute;
+  display: inline-flex;
+  top: 35px;
+  left: 300px;
+  padding: 10px 20px;
+  border-radius: 5px;
+  color: #27ae60;
+  background: rgba(0, 0, 0, 0.5);
+  font-size: 16px;
+  font-family: 'Roboto', sans-serif;
+  text-decoration: none;
+  text-transform: uppercase;
+  overflow: hidden;
+  transition: .5s;
+  margin-top: 40px;
+  letter-spacing: 4px;
+  background: rgba(0, 0, 0, 0.5);
+  box-sizing: border-box;
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6);
+  border-radius: 10px;
+  z-index: 1; 
+  flex-direction: column;
+}
+
+.sidebar-open {
+  background: rgba(0, 0, 0, 0.5);
+  box-sizing: border-box;
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6);
+  border-radius: 10px;
+  top: 20px;
+  left: 20px;
+}
+
+.sidebar-button {
+  margin: 5px ;
+  padding: 10px 10px;
+  border: none;
+  background: #27ae60; /* Button Background: #27ae60 (Green Theme) */
+  color: #ffffff; /* Button Text Color: #ffffff */
+  font-size: 16px;
+  font-family: 'Roboto', sans-serif;
+  border-radius: 5px;
+  cursor: pointer;
+  min-width: 200px; /* Minimum width */
+}
+
+.employee-management-button {
+  margin: 5px ;
+  padding: 10px 10px;
+  border: none;
+  background: #27ae60; /* Button Background: #27ae60 (Green Theme) */
+  color: #ffffff; /* Button Text Color: #ffffff */
+  font-size: 16px;
+  font-family: 'Roboto', sans-serif;
+  border-radius: 5px;
+  cursor: pointer;
+  min-width: 200px; /* Minimum width */
+
+}
+
+/* Add the styles for the employee content input class */
+.employee-content-input {
+  margin: 5px;
+  padding: 10px 10px;
+  border: none;
+  background: #ffffff; /* Button Background: #27ae60 (Green Theme) */
+  color: #000000; /* Button Text Color: #ffffff */
+  font-size: 16px;
+  font-family: 'Roboto', sans-serif;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  width: 220px;
+}
+
+.employee-content-gender-input {
+  margin: 5px;
+  padding: 10px 10px;
+  border: none;
+  background: #ffffff; /* Button Background: #27ae60 (Green Theme) */
+  color: #000000; /* Button Text Color: #ffffff */
+  font-size: 16px;
+  font-family: 'Roboto', sans-serif;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  width: 240px;
+}
