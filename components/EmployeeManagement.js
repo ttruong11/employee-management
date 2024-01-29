@@ -1,13 +1,5 @@
-import React, { useState } from 'react';
-
-// Existing Employee Form Component
-const ExistingEmployeeForm = () => {
-  return (
-    <div>
-      {/* ... (existing employee form content) ... */}
-    </div>
-  );
-};
+import React, { useState, useEffect } from 'react';
+import ViewEmployeeList from '../pages/api/viewEmployeeList'; // Import the ViewEmployeeList component
 
 const EmployeeManagement = () => {
   const [employee, setEmployee] = useState({
@@ -20,6 +12,26 @@ const EmployeeManagement = () => {
   });
 
   const [showAddEmployeeForm, setShowAddEmployeeForm] = useState(false); // State for form visibility
+  const [successMessage, setSuccessMessage] = useState('');
+  const [fetchEmployees, setFetchEmployees] = useState(false); // State to trigger fetching employees
+  const [showEmployeeList, setShowEmployeeList] = useState(false); // State to show/hide employee list
+  const backendURL = process.env.NEXT_PUBLIC_BACKEND_URL;
+
+  useEffect(() => {
+    if (fetchEmployees) {
+      // Fetch existing employees when the fetchEmployees state is true
+      fetch(backendURL + '/api/employees') // Replace with your actual API endpoint
+        .then((response) => response.json())
+        .then((data) => {
+          setEmployees(data);
+          setFetchEmployees(false); // Reset the state to prevent continuous fetching
+          setShowEmployeeList(true); // Show the employee list after fetching
+        })
+        .catch((error) => console.error('Error fetching employees:', error));
+    }
+  }, [fetchEmployees]); // Add fetchEmployees as a dependency
+
+  const [employees, setEmployees] = useState([]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -28,7 +40,7 @@ const EmployeeManagement = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     try {
       const response = await fetch('../api/addEmployee', {
         method: 'POST',
@@ -37,10 +49,20 @@ const EmployeeManagement = () => {
         },
         body: JSON.stringify(employee),
       });
-  
+
       if (response.ok) {
-        console.log('Employee added successfully');
-        // Reset the form or handle success as needed
+        setSuccessMessage('Employee added successfully'); // Set success message
+        setEmployee({
+          firstName: '',
+          lastName: '',
+          dob: '',
+          gender: '',
+          phoneNumber: '',
+          email: ''
+        }); // Clear the form fields
+        setShowAddEmployeeForm(false); // Hide the form
+        setFetchEmployees(true); // Trigger fetching employees
+        setShowEmployeeList(false); // Hide the employee list
       } else {
         console.error('Error adding employee');
         // Handle error as needed
@@ -51,25 +73,43 @@ const EmployeeManagement = () => {
     }
   };
 
-    // Function to toggle the visibility of the add employee form
+  // Function to toggle the visibility of the add employee form
   const toggleAddEmployeeForm = () => {
     setShowAddEmployeeForm(!showAddEmployeeForm);
+    setSuccessMessage(''); // Clear the success message when toggling the form
+    setShowEmployeeList(false); // Hide the employee list when toggling the form
+  };
+
+  // Function to toggle the visibility of the employee list
+  const toggleEmployeeList = () => {
+    setShowEmployeeList(!showEmployeeList);
+    if (showAddEmployeeForm) {
+      setShowAddEmployeeForm(false); // Hide the add employee form if it's open
+    }
   };
 
   return (
     <div className="employee-management-container">
       <h2>Employee Management</h2>
-      {/* Buttons to toggle form visibility */}
-      {showAddEmployeeForm ? (
-        <button className="employee-management-button" onClick={toggleAddEmployeeForm}>Hide Add Employee Form</button>
+      {/* Buttons to toggle form visibility and display success message */}
+      {successMessage ? (
+        <div className="success-message">
+          {successMessage}
+        </div>
       ) : (
-        <button className="employee-management-button" onClick={toggleAddEmployeeForm}>Add New Employee</button>
+        <>
+          {showAddEmployeeForm ? (
+            <button className="employee-management-button" onClick={toggleAddEmployeeForm}>Hide Add Employee Form</button>
+          ) : (
+            <button className="employee-management-button" onClick={toggleAddEmployeeForm}>Add New Employee</button>
+          )}
+        </>
       )}
-      <button className="employee-management-button">View Existing Employee</button>
 
       {/* Conditional rendering of the form based on showAddEmployeeForm state */}
       {showAddEmployeeForm && (
         <form onSubmit={handleSubmit}>
+          {/* Form input fields here */}
           <input 
             type="text" 
             name="firstName" 
@@ -121,9 +161,21 @@ const EmployeeManagement = () => {
             placeholder="Email Address"
             className="employee-content-input"
           />
+          {/* Add a submit button here */}
           <button type="submit" className="employee-management-button">Submit</button>
         </form>
       )}
+
+      {/* Include the "Add Another Employee" button after an employee has been added */}
+      {successMessage && (
+        <button className="employee-management-button" onClick={toggleAddEmployeeForm}>Add Another Employee</button>
+      )}
+
+      {/* Include the "View Existing Employee" button that fetches data */}
+      <button className="employee-management-button" onClick={toggleEmployeeList}>View Existing Employee</button>
+
+      {/* Conditional rendering of the ViewEmployeeList component */}
+      {showEmployeeList && <ViewEmployeeList />}
     </div>
   );
 };

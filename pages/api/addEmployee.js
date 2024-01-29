@@ -12,13 +12,24 @@ export default async function handler(req, res) {
     } = req.body;
 
     try {
+      // Check if an employee with the same email already exists
+      const checkQuery = `
+        SELECT email FROM employees WHERE email = $1
+      `;
+
+      const existingEmployee = await db.query(checkQuery, [email]);
+
+      if (existingEmployee.rows.length > 0) {
+        return res.status(400).json({ error: 'Employee with the same email already exists' });
+      }
+
       // Insert the employee data into the database
-      const query = `
+      const insertQuery = `
         INSERT INTO employees (first_name, last_name, dob, gender, phone_number, email)
         VALUES ($1, $2, $3, $4, $5, $6)
       `;
 
-      await db.query(query, [
+      await db.query(insertQuery, [
         firstName,
         lastName,
         dob,

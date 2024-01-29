@@ -234,6 +234,7 @@ body {
   min-width: 200px; /* Minimum width */
 }
 
+.employee-management-container {}
 .employee-management-button {
   margin: 5px ;
   padding: 10px 10px;
@@ -245,7 +246,6 @@ body {
   border-radius: 5px;
   cursor: pointer;
   min-width: 200px; /* Minimum width */
-
 }
 
 /* Add the styles for the employee content input class */

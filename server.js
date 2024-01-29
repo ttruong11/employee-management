@@ -1,69 +1,30 @@
 const express = require('express');
-const bcrypt = require('bcrypt');
-const bodyParser = require('body-parser');
-const { Sequelize, DataTypes } = require('sequelize');
+const pool = require('./db/db'); // Import the database connection pool from db.js
+const cors = require('cors'); // Import the cors middleware
 
 const app = express();
-app.use(bodyParser.json());
+const port = process.env.PORT || 3001; // Set the port for your server
 
-const sequelize = new Sequelize('postgres://postgres:password@postgres:5432/mydatabase', {
-  dialect: 'postgres'
-});
+app.use(cors());
 
-const User = sequelize.define('User', {
-  username: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true
-  },
-  hashedPassword: {
-    type: DataTypes.STRING,
-    allowNull: false
-  }
-});
-
-app.post('/signup', async (req, res) => {
-  const hashedPassword = await bcrypt.hash(req.body.password, 10);
+// API endpoint to retrieve existing employees
+app.get('/api/employees', async (req, res) => {
   try {
-    await User.create({
-      username: req.body.username,
-      hashedPassword
-    });
-    res.status(201).send({ message: 'User registered!' });
+    const query = 'SELECT * FROM employees';
+    const { rows } = await pool.query(query);
+    res.status(200).json(rows);
   } catch (error) {
-    res.status(400).send({ message: 'Error registering user.' });
+    console.error('Error fetching employees:', error);
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 
-app.post('/login', async (req, res) => {
-  const { username, password } = req.body;
-
-  try {
-    const user = await User.findOne({ where: { username } });
-
-    if (!user) {
-      return res.status(401).json({ message: 'No such user found' });
-    }
-
-    const validPassword = await bcrypt.compare(password, user.hashedPassword);
-
-    if (validPassword) {
-      // Login successful
-      // At this point, you might generate a JWT or another authentication token and send it back
-      return res.json({ message: 'Login successful' });
-    } else {
-      return res.status(401).json({ message: 'Incorrect password' });
-    }
-  } catch (error) {
-    console.error('Error logging in:', error);
-    return res.status(500).json({ message: 'Internal server error' });
-  }
+// Define a route handler for the root URL ("/")
+app.get('/', (req, res) => {
+  res.send('Hello, world!'); // You can customize this response
 });
 
-sequelize.sync().then(() => {
-  app.listen(3001, () => {
-    console.log('Server started on http://localhost:3001');
-  });
+// Start the server
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
 });
-
-
