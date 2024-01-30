@@ -51,7 +51,6 @@ router.get('/api/employees', async (req, res) => {
     const additionalData = {
       currentEmployeeCount: rows.length, // This example assumes the count is the length of the 'rows' array
       totalSalarySum: totalSalarySum, // Include the sum of salaries
-
       // Add other additional data here
     };
 
@@ -212,6 +211,30 @@ router.get('/api/users', async (req, res) => {
     });
   });  
 
+  // Define a chatbot route for collecting employee information
+router.post('/api/chatbot', async (req, res) => {
+  const userMessage = req.body.message;
+
+  // Implement your chatbot logic here to collect employee information
+  // For example, you can split the conversation based on keywords
+  if (userMessage.includes('name')) {
+    // Collect the name and store it temporarily
+    // You can replace this with your own logic to handle employee data
+    const name = userMessage.replace('name:', '').trim();
+    // Store the name in a variable or temporary storage
+    // You can replace this with your own data storage mechanism
+    res.json({ response: `Got it! Now, please provide the email.` });
+  } else if (userMessage.includes('email')) {
+    // Collect the email and insert the employee record into the database
+    // You can replace this with your own logic to handle employee data
+    const email = userMessage.replace('email:', '').trim();
+    // Insert the employee record into your database (replace with your database logic)
+    // Then, respond accordingly
+    res.json({ response: `Employee record inserted successfully.` });
+  } else {
+    res.json({ response: `I'm sorry, I didn't understand. Please provide the name.` });
+  }
+});
   
 
 module.exports = router;

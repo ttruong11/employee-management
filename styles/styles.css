@@ -547,3 +547,16 @@ body {
   width: 100%; /* Ensure the container takes the full width of its parent */
   padding: 20px; /* Adjust padding as needed */
 }
+
+.chatbot-container {
+  top: 35px;
+  left: 100px;
+  position: absolute;
+  padding: 10px 20px;
+  border-radius: 5px;
+  color: #FFFFFF;
+  background: rgba(0, 0, 0, 0.5); /* Button Background: #27ae60 (Green Theme) */
+  max-width: 300px;
+  width: 300px;
+  height: 400px;
+}

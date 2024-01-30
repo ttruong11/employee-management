@@ -1,6 +1,8 @@
 import React from 'react';
 import Sidebar from '../components/Sidebar'; // Adjust the path as necessary
 import Home from '../components/Home'; // Adjust the path as necessary
+import ChatBot from '../components/chatbot';
+
 
 const Dashboard = () => {
   return (
@@ -9,6 +11,7 @@ const Dashboard = () => {
       <div className="">
       </div>
       <div className="main-content">
+      <ChatBot />
         {/* Your main content goes here */}
         {/* You can add more content or components here as needed */}
       </div>
