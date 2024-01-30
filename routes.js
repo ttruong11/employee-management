@@ -10,6 +10,31 @@ const fs = require('fs');
 
 // Define your routes here
 
+// Define the DELETE route for deleting an employee by ID
+router.delete('/api/employees/:id', async (req, res) => {
+  const employeeId = req.params.id; // Get the employee ID from the URL parameter
+
+  try {
+    // Check if the employee with the given ID exists in the database
+    const queryCheck = 'SELECT * FROM employees WHERE id = $1';
+    const { rows } = await pool.query(queryCheck, [employeeId]);
+
+    if (rows.length === 0) {
+      return res.status(404).json({ error: 'Employee not found' });
+    }
+
+    // If the employee exists, perform the DELETE operation
+    const deleteQuery = 'DELETE FROM employees WHERE id = $1';
+    await pool.query(deleteQuery, [employeeId]);
+
+    res.status(200).json({ message: 'Employee deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting employee:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+
 // API endpoint to retrieve existing employees
 router.get('/api/employees', async (req, res) => {
   try {

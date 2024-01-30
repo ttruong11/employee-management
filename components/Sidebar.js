@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Settings from '../components/Settings';
 import EmployeeManagement from '../components/EmployeeManagement'; // Import the EmployeeDetails component
@@ -46,11 +46,20 @@ const Sidebar = () => {
     setShowEmployeeDetails(false); // Hide employee details container
   };
 
+  useEffect(() => {
+    // Reset all relevant states when the sidebar is closed
+    if (!sidebarOpen) {
+      setSelectedOption(null);
+      setShowContent(false);
+      setShowEmployeeDetails(false);
+    }
+  }, [sidebarOpen]);
+
   return (
     <div className="dashboard-container">
       <div className={`sidebar ${sidebarOpen ? 'sidebar-open' : ''}`}>
         <button className="sidebar-toggle" onClick={toggleSidebar}>
-          {sidebarOpen ? 'Close Sidebar' : 'Open Sidebar'}
+          {sidebarOpen ? '' : ''}
         </button>
 
         {sidebarOpen && (
