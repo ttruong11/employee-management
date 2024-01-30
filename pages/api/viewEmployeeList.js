@@ -52,7 +52,7 @@ const EmployeeList = () => {
         <table>
           <thead>
             <tr>
-              <th>Name</th>
+              <th>Employee Name</th>
             </tr>
           </thead>
           <tbody>

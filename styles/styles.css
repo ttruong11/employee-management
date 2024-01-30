@@ -21,8 +21,8 @@ body {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    overflow: hidden;
     border-color: #27ae60; /* Green Border Color on Focus */
+
   }
 
   input {
@@ -258,6 +258,7 @@ body {
 
 .employee-management-container {
   display: inline-block;
+  color: #ffffff;
 }
 
 .employee-management-button {
@@ -357,7 +358,7 @@ body {
 
 .employee-list-container {
   position: absolute;
-  top: 5px;
+  top: 35px;
   left: 800px;
   margin: 5px ;
   padding: 10px 10px;
@@ -399,7 +400,6 @@ body {
   padding: 10px 20px;
   border-radius: 5px;
   background: #aaaaaaa8; /* Button Background: #27ae60 (Green Theme) */
-  color: #000000;
   font-size: 10px;
   font-family: 'Roboto', sans-serif;
   text-decoration: none;
@@ -433,7 +433,19 @@ body {
 }
 
 .circular-image {
-  margin-left: 125px;
+  margin-left: 150px;
+  margin-bottom: 15px;
+  width: 125px;
+  height: 125px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.circular-image-2 {
+  margin-left: 70px;
   margin-bottom: 15px;
   width: 125px;
   height: 125px;
@@ -518,4 +530,20 @@ body {
 .dashboard-employee-stats {
   font-size: 20px;
   font-family: 'Roboto', sans-serif;
+}
+
+.employees-page {
+  display: flex;
+  flex-wrap: wrap; /* Wrap the cards to the next line when the container width is reached */
+  justify-content: space-evenly; /* Distribute space evenly between cards horizontally */
+  align-items: flex-start; /* Align cards to the top of the container vertically */
+}
+
+.employee-card-container {
+  display: flex;
+  flex-direction: row; /* Arrange cards horizontally */
+  flex-wrap: wrap; /* Wrap cards to the next line when the container width is reached */
+  justify-content: space-evenly; /* Distribute space evenly between cards horizontally */
+  width: 100%; /* Ensure the container takes the full width of its parent */
+  padding: 20px; /* Adjust padding as needed */
 }
