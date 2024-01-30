@@ -3,6 +3,10 @@ const express = require('express');
 const router = express.Router();
 const pool = require('./db/db'); // Import the database connection pool
 const bcrypt = require('bcrypt'); // Import bcrypt for password hashing
+const multer = require('multer');
+const AWS = require('aws-sdk');
+const path = require('path');
+const fs = require('fs');
 
 // Define your routes here
 
@@ -123,5 +127,42 @@ router.get('/api/users', async (req, res) => {
     }
   });
   
+  const upload = multer({ dest: 'uploads/' });
+
+  // Configure AWS
+  AWS.config.update({
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    region: process.env.AWS_REGION
+  });
+  
+  const s3 = new AWS.S3();
+  
+  // Add a new route for image uploads
+  router.post('/upload', upload.single('image'), (req, res) => {
+    const file = req.file;
+    const fileName = Date.now() + path.extname(file.originalname); // Create a unique file name
+  
+    const params = {
+      Bucket: process.env.S3_BUCKET_NAME,
+      Key: fileName,
+      Body: fs.createReadStream(file.path),
+      ContentType: file.mimetype
+    };
+  
+    s3.upload(params, (err, data) => {
+      if (err) {
+        console.error('Error uploading to S3:', err);
+        return res.status(500).send('Error uploading to S3');
+      }
+  
+      // Delete the file from local storage after uploading to S3
+      fs.unlink(file.path, () => {
+        console.log('Temp file deleted');
+      });
+  
+      res.json({ imageUrl: data.Location }); // Send the URL of the uploaded file
+    });
+  });  
 
 module.exports = router;

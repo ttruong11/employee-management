@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors'); // Import the cors middleware
 const bodyParser = require('body-parser'); // Import bodyParser for handling JSON requests
 const routes = require('./routes'); // Import your custom routes
+require('dotenv').config({ path: '.env' });
 
 const app = express();
 const port = process.env.PORT || 3001; // Set the port for your server

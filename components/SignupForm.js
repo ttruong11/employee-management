@@ -8,9 +8,15 @@ const SignupForm = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const router = useRouter();
   const backendURL = process.env.NEXT_PUBLIC_BACKEND_URL;
+  
+  const handleBackButton = () => {
+    router.push('/'); // Redirects the user to the root page
+  };
+  
 
   const handleSignup = async (e) => {
     e.preventDefault();
+
 
     try {
       const response = await fetch(backendURL + '/api/register', {
@@ -72,6 +78,7 @@ const SignupForm = () => {
               Sign Up
             </button>
           </form>
+          <button className="login-button" onClick={handleBackButton}>Back</button>
         </div>
       </div>
       {errorMessage && <div className="error-message">{errorMessage}</div>}

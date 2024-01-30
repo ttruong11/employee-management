@@ -235,10 +235,12 @@ body {
   min-width: 200px; /* Minimum width */
 }
 
-.employee-management-container {}
+.employee-management-container {
+}
 
 .employee-management-button {
-  margin: 5px ;
+  margin-left: 30px ;
+  margin-bottom: 10px;
   padding: 10px 10px;
   border: none;
   background: #27ae60; /* Button Background: #27ae60 (Green Theme) */
@@ -248,11 +250,13 @@ body {
   border-radius: 5px;
   cursor: pointer;
   min-width: 200px; /* Minimum width */
+  justify-content: center;
+  display: flex;
 }
 
 /* Add the styles for the employee content input class */
 .employee-content-input {
-  margin: 5px;
+  margin: 10px;
   padding: 10px 10px;
   border: none;
   background: #ffffff; /* Button Background: #27ae60 (Green Theme) */
@@ -266,8 +270,8 @@ body {
 }
 
 .employee-content-gender-input {
-  margin: 5px;
   padding: 10px 10px;
+  margin-left: 10px;
   border: none;
   background: #ffffff; /* Button Background: #27ae60 (Green Theme) */
   color: #000000; /* Button Text Color: #ffffff */
@@ -275,7 +279,7 @@ body {
   font-family: 'Roboto', sans-serif;
   border-radius: 5px;
   cursor: pointer;
-  display: flex;
+  display: inline-flex;
   width: 240px;
 }
 
@@ -385,4 +389,19 @@ body {
   box-sizing: border-box;
   border-radius: 10px;
   z-index: 1; 
+}
+
+.image-upload-container{
+  margin-left: 10px ;
+  margin-bottom: 10px;
+  padding: 10px 10px;
+  border: none;
+  background: #27ae60; /* Button Background: #27ae60 (Green Theme) */
+  color: #ffffff; /* Button Text Color: #ffffff */
+  font-size: 16px;
+  font-family: 'Roboto', sans-serif;
+  border-radius: 5px;
+  cursor: pointer;
+  justify-content: center;
+  display: inline-block;
 }

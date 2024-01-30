@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import ViewEmployeeList from '../pages/api/viewEmployeeList'; // Import the ViewEmployeeList component
+import ViewEmployeeList from '../pages/api/viewEmployeeList'; // Ensure this path is correct
+import ImageUpload from './ImageUpload'; // Ensure this path is correct
 
 const EmployeeManagement = ({ toggleEmployeeDetailsContainer }) => {
   const [employee, setEmployee] = useState({
@@ -10,48 +11,76 @@ const EmployeeManagement = ({ toggleEmployeeDetailsContainer }) => {
     phoneNumber: '',
     email: ''
   });
-
-  const [showAddEmployeeForm, setShowAddEmployeeForm] = useState(false); // State for form visibility
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [showAddEmployeeForm, setShowAddEmployeeForm] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
-  const [fetchEmployees, setFetchEmployees] = useState(false); // State to trigger fetching employees
-  const [showEmployeeList, setShowEmployeeList] = useState(false); // State to show/hide employee list
+  const [fetchEmployees, setFetchEmployees] = useState(false);
+  const [showEmployeeList, setShowEmployeeList] = useState(false);
+  const [employees, setEmployees] = useState([]);
   const backendURL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
   useEffect(() => {
     if (fetchEmployees) {
-      // Fetch existing employees when the fetchEmployees state is true
-      fetch(backendURL + '/api/employees') // Replace with your actual API endpoint
-        .then((response) => response.json())
-        .then((data) => {
+      fetch(backendURL + '/api/employees')
+        .then(response => response.json())
+        .then(data => {
           setEmployees(data);
-          setFetchEmployees(false); // Reset the state to prevent continuous fetching
-          setShowEmployeeList(true); // Show the employee list after fetching
+          setFetchEmployees(false);
+          setShowEmployeeList(true);
         })
-        .catch((error) => console.error('Error fetching employees:', error));
+        .catch(error => console.error('Error fetching employees:', error));
     }
-  }, [fetchEmployees]); // Add fetchEmployees as a dependency
+  }, [fetchEmployees]);
 
-  const [employees, setEmployees] = useState([]);
-
-  const handleInputChange = (e) => {
+  const handleInputChange = e => {
     const { name, value } = e.target;
     setEmployee({ ...employee, [name]: value });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const uploadImage = async () => {
+    const formData = new FormData();
+    formData.append('image', selectedFile);
 
     try {
-      const response = await fetch('../api/addEmployee', {
+      const response = await fetch(backendURL + '/upload', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(employee),
+        body: formData,
       });
 
       if (response.ok) {
-        setSuccessMessage('Employee added successfully'); // Set success message
+        const data = await response.json();
+        return data.imageUrl;
+      }
+    } catch (error) {
+      console.error('Error uploading image:', error);
+    }
+    return null;
+  };
+
+  const handleSubmit = async e => {
+    e.preventDefault();
+
+    if (!selectedFile) {
+      alert('Please upload an image for the employee.');
+      return;
+    }
+
+    const imageUrl = await uploadImage();
+    if (!imageUrl) {
+      alert('Failed to upload image.');
+      return;
+    }
+
+    const employeeData = { ...employee, imageUrl };
+    try {
+      const response = await fetch(`../api/addEmployee`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(employeeData),
+      });
+
+      if (response.ok) {
+        setSuccessMessage('Employee added successfully');
         setEmployee({
           firstName: '',
           lastName: '',
@@ -59,35 +88,32 @@ const EmployeeManagement = ({ toggleEmployeeDetailsContainer }) => {
           gender: '',
           phoneNumber: '',
           email: ''
-        }); // Clear the form fields
-        setShowAddEmployeeForm(false); // Hide the form
-        setFetchEmployees(true); // Trigger fetching employees
-        setShowEmployeeList(false); // Hide the employee list
+        });
+        setSelectedFile(null);
+        setShowAddEmployeeForm(false);
+        setFetchEmployees(true);
+        setShowEmployeeList(false);
       } else {
         console.error('Error adding employee');
-        // Handle error as needed
       }
     } catch (error) {
       console.error('Error adding employee:', error);
-      // Handle error as needed
     }
   };
 
-  // Function to toggle the visibility of the add employee form
   const toggleAddEmployeeForm = () => {
     setShowAddEmployeeForm(!showAddEmployeeForm);
-    setSuccessMessage(''); // Clear the success message when toggling the form
-    setShowEmployeeList(false); // Hide the employee list when toggling the form
+    setSuccessMessage('');
+    setShowEmployeeList(false);
   };
 
-  // Function to toggle the visibility of the employee list
   const toggleEmployeeList = () => {
     setShowEmployeeList(!showEmployeeList);
     if (showAddEmployeeForm) {
-      setShowAddEmployeeForm(false); // Hide the add employee form if it's open
+      setShowAddEmployeeForm(false);
     }
   };
-  
+
   const handleBackButton = () => {
     setShowAddEmployeeForm(false);
   };
@@ -95,87 +121,37 @@ const EmployeeManagement = ({ toggleEmployeeDetailsContainer }) => {
   return (
     <div className="employee-management-container">
       <h2>Employee Management</h2>
-      {/* Buttons to toggle form visibility and display success message */}
-      {successMessage ? (
-        <div className="success-message">
-          {successMessage}
-        </div>
-      ) : (
+      {successMessage && <div className="success-message">{successMessage}</div>}
+      {!successMessage && (
         <>
           {showAddEmployeeForm ? (
             <form onSubmit={handleSubmit}>
-              <button className="employee-management-button" onClick={handleBackButton}>Back</button>
-
-              {/* Form input fields here */}
-              <input 
-                type="text" 
-                name="firstName" 
-                value={employee.firstName} 
-                onChange={handleInputChange} 
-                placeholder="First Name"
-                className="employee-content-input"
+              <ImageUpload
+                selectedFile={selectedFile}
+                setSelectedFile={setSelectedFile}
+                allowedTypes={['image/jpeg', 'image/png', 'image/gif']}
               />
-              <input 
-                type="text" 
-                name="lastName" 
-                value={employee.lastName} 
-                onChange={handleInputChange} 
-                placeholder="Last Name"
-                className="employee-content-input"
-              />
-              <input 
-                type="date" 
-                name="dob" 
-                value={employee.dob} 
-                onChange={handleInputChange} 
-                placeholder="Date of Birth"
-                className="employee-content-input"
-              />
-              <select 
-                name="gender" 
-                value={employee.gender} 
-                onChange={handleInputChange}
-                className="employee-content-gender-input"
-              >
+              <input type="text" name="firstName" value={employee.firstName} onChange={handleInputChange} placeholder="First Name" className="employee-content-input" />
+              <input type="text" name="lastName" value={employee.lastName} onChange={handleInputChange} placeholder="Last Name" className="employee-content-input" />
+              <input type="date" name="dob" value={employee.dob} onChange={handleInputChange} placeholder="Date of Birth" className="employee-content-input" />
+              <select name="gender" value={employee.gender} onChange={handleInputChange} className="employee-content-gender-input">
                 <option value="">Select Gender</option>
                 <option value="male">Male</option>
                 <option value="female">Female</option>
                 <option value="other">Other</option>
               </select>
-              <input 
-                type="tel" 
-                name="phoneNumber" 
-                value={employee.phoneNumber} 
-                onChange={handleInputChange} 
-                placeholder="Phone Number"
-                className="employee-content-input"
-              />
-              <input 
-                type="email" 
-                name="email" 
-                value={employee.email} 
-                onChange={handleInputChange} 
-                placeholder="Email Address"
-                className="employee-content-input"
-              />
-              {/* Add a submit button here */}
+              <input type="tel" name="phoneNumber" value={employee.phoneNumber} onChange={handleInputChange} placeholder="Phone Number" className="employee-content-input" />
+              <input type="email" name="email" value={employee.email} onChange={handleInputChange} placeholder="Email Address" className="employee-content-input" />
               <button type="submit" className="employee-management-button">Submit</button>
+              <button className="employee-management-button" onClick={handleBackButton}>Back</button>
             </form>
           ) : (
             <button className="employee-management-button" onClick={toggleAddEmployeeForm}>Add New Employee</button>
           )}
         </>
       )}
-
-      {/* Include the "Add Another Employee" button after an employee has been added */}
-      {successMessage && (
-        <button className="employee-management-button" onClick={toggleAddEmployeeForm}>Add Another Employee</button>
-      )}
-
-      {/* Include the "View Existing Employee" button that toggles the employee details container */}
+      {successMessage && <button className="employee-management-button" onClick={toggleAddEmployeeForm}>Add Another Employee</button>}
       <button className="employee-management-button" onClick={() => toggleEmployeeDetailsContainer(true)}>View Existing Employee</button>
-      
-      {/* Conditional rendering of the ViewEmployeeList component */}
       {showEmployeeList && <ViewEmployeeList />}
     </div>
   );

@@ -9,6 +9,7 @@ export default async function handler(req, res) {
       gender,
       phoneNumber,
       email,
+      imageUrl,
     } = req.body;
 
     try {
@@ -25,8 +26,8 @@ export default async function handler(req, res) {
 
       // Insert the employee data into the database
       const insertQuery = `
-        INSERT INTO employees (first_name, last_name, dob, gender, phone_number, email)
-        VALUES ($1, $2, $3, $4, $5, $6)
+        INSERT INTO employees (first_name, last_name, dob, gender, phone_number, email, image_url)
+        VALUES ($1, $2, $3, $4, $5, $6, $7)
       `;
 
       await db.query(insertQuery, [
@@ -36,6 +37,7 @@ export default async function handler(req, res) {
         gender,
         phoneNumber,
         email,
+        imageUrl,
       ]);
 
       return res.status(200).json({ message: 'Employee added successfully' });
