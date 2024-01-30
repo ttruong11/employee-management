@@ -433,10 +433,10 @@ body {
 }
 
 .circular-image {
-  margin-left: 150px;
+  margin-left: 100px;
   margin-bottom: 15px;
-  width: 125px;
-  height: 125px;
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
   object-fit: cover;
   display: inline-flex;

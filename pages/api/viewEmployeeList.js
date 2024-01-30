@@ -9,7 +9,6 @@ const EmployeeList = () => {
       .then(response => response.json())
       .then(data => {
         setEmployees(data.employees); // Update to access employees array in the response
-        setCurrentEmployeeCount(data.additionalData.currentEmployeeCount); // Access additional data
         console.log('Fetched employees:', data); // Add this line for debugging
       })
       .catch(error => console.error('Error fetching employees:', error));
@@ -40,6 +39,12 @@ const EmployeeList = () => {
       console.error('Invalid employee ID:', employeeId);
     }
   };
+
+
+  const handleUpdateEmployee = (employee) => {
+    // Implement the logic to update an employee here
+    // You can open a modal or navigate to a new page for updating employee details
+  };
   
   const formatDate = (dateString) => {
     const options = { year: 'numeric', month: 'short', day: 'numeric' };
@@ -64,11 +69,6 @@ const EmployeeList = () => {
                     {selectedEmployee === employee ? 'Hide Details' : 'Details'}
                   </button>
                 </td>
-                <td>
-                  <button className="employee-details-button" onClick={() => handleDeleteEmployee(employee)}>
-                    Delete
-                  </button>
-                </td>
               </tr>
             ))}
           </tbody>
@@ -86,11 +86,13 @@ const EmployeeList = () => {
           <p>Email: {selectedEmployee.email}</p>
           <p>Job: {selectedEmployee.job_role}</p>
           <p>Salary: {selectedEmployee.salary}</p>
-          <button className="employee-details-button" onClick={() => toggleEmployeeDetails(selectedEmployee)}>Hide Details</button>
+          <button className="employee-details-button" onClick={() => handleUpdateEmployee(selectedEmployee)}>Update</button>
+          <button className="employee-details-button" onClick={() => handleDeleteEmployee(selectedEmployee)}>Delete</button>
         </div>
       )}
     </div>
   );
 };
+
 
 export default EmployeeList;
