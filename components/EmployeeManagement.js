@@ -16,6 +16,8 @@ const EmployeeManagement = ({ toggleEmployeeDetailsContainer }) => {
   const [successMessage, setSuccessMessage] = useState('');
   const [fetchEmployees, setFetchEmployees] = useState(false);
   const [showEmployeeList, setShowEmployeeList] = useState(false);
+  const [viewExistingEmployee, setViewExistingEmployee] = useState(false); // State variable to toggle the view
+
   const [employees, setEmployees] = useState([]);
   const backendURL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
@@ -118,6 +120,17 @@ const EmployeeManagement = ({ toggleEmployeeDetailsContainer }) => {
     setShowAddEmployeeForm(false);
   };
 
+  const handleViewExistingEmployee = () => {
+    // Toggle the employee-details-container-1 state
+    toggleEmployeeDetailsContainer(prevState => !prevState);
+  
+    // Close the employee management form if it's open
+    if (showAddEmployeeForm) {
+      setShowAddEmployeeForm(false);
+    }
+  };
+  
+
   return (
     <div className="employee-management-container">
       <h2>Employee Management</h2>
@@ -151,7 +164,7 @@ const EmployeeManagement = ({ toggleEmployeeDetailsContainer }) => {
         </>
       )}
       {successMessage && <button className="employee-management-button" onClick={toggleAddEmployeeForm}>Add Another Employee</button>}
-      <button className="employee-management-button" onClick={() => toggleEmployeeDetailsContainer(true)}>View Existing Employee</button>
+      <button className="employee-management-button" onClick={handleViewExistingEmployee}>View Existing Employee</button>
       {showEmployeeList && <ViewEmployeeList />}
     </div>
   );

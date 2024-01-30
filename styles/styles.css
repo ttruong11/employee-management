@@ -421,7 +421,7 @@ body {
 
 
 .employee-list-scroll {
-  max-height: 100px; /* Set the maximum height as per your preference */
+  max-height: 167.025px; /* Set the maximum height as per your preference */
   overflow-y: auto; /* Add a vertical scrollbar if the content overflows */
   scrollbar-color: #27ae60;
 }
