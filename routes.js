@@ -38,14 +38,29 @@ router.delete('/api/employees/:id', async (req, res) => {
 // API endpoint to retrieve existing employees
 router.get('/api/employees', async (req, res) => {
   try {
+    // Retrieve all employees
     const query = 'SELECT * FROM employees';
     const { rows } = await pool.query(query);
-    res.status(200).json(rows);
+
+    // Include additional data (e.g., currentEmployeeCount)
+    const additionalData = {
+      currentEmployeeCount: rows.length, // This example assumes the count is the length of the 'rows' array
+      // Add other additional data here
+    };
+
+    // Combine employee data and additional data in the response
+    const responseData = {
+      employees: rows,
+      additionalData: additionalData,
+    };
+
+    res.status(200).json(responseData);
   } catch (error) {
     console.error('Error fetching employees:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
 
 // User registration endpoint
 router.post('/api/register', async (req, res) => {

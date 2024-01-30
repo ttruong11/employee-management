@@ -78,7 +78,7 @@ const SignupForm = () => {
               Sign Up
             </button>
           </form>
-          <button className="login-button" onClick={handleBackButton}>Back</button>
+          <button className="login-button" onClick={handleBackButton}>Return To Login</button>
         </div>
       </div>
       {errorMessage && <div className="error-message">{errorMessage}</div>}

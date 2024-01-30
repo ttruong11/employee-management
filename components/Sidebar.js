@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import Settings from '../components/Settings';
 import EmployeeManagement from '../components/EmployeeManagement'; // Import the EmployeeDetails component
 import EmployeeList from '../pages/api/viewEmployeeList';
+import Home from './Home';
 
 const Sidebar = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -13,6 +14,8 @@ const Sidebar = () => {
 
   const getContentComponent = () => {
     switch (selectedOption) {
+      case 'Home' : 
+        return <Home />;
       case 'Employee Management':
         return <EmployeeManagement toggleEmployeeDetailsContainer={toggleEmployeeDetailsContainer} />;
       case 'Settings':

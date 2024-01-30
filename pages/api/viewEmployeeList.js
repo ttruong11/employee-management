@@ -8,7 +8,8 @@ const EmployeeList = () => {
     fetch('http://localhost:3001/api/employees')
       .then(response => response.json())
       .then(data => {
-        setEmployees(data);
+        setEmployees(data.employees); // Update to access employees array in the response
+        setCurrentEmployeeCount(data.additionalData.currentEmployeeCount); // Access additional data
         console.log('Fetched employees:', data); // Add this line for debugging
       })
       .catch(error => console.error('Error fetching employees:', error));

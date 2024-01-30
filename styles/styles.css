@@ -481,3 +481,33 @@ body {
   cursor: pointer;
   min-width: 120px;
 }
+
+.quickstart-container {
+  padding: 10px 20px;
+  border-radius: 5px;
+  color: #ffffff;
+  font-size: 10px;
+  font-family: 'Roboto', sans-serif;
+  text-decoration: none;
+  text-transform: uppercase;
+  overflow: hidden;
+  transition: .5s;
+  margin-top: 40px;
+  letter-spacing: 4px;
+  z-index: 1; 
+  max-width: 300px;
+  width: 300px;
+  height: 400px;
+}
+
+.home-container {
+  top: 35px;
+  left: 100px;
+  position: absolute;
+  padding: 10px 20px;
+  border-radius: 5px;
+  background: rgba(0, 0, 0, 0.5); /* Button Background: #27ae60 (Green Theme) */
+  max-width: 300px;
+  width: 300px;
+  height: 400px;
+}
