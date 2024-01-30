@@ -350,6 +350,7 @@ body {
   box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6);
   border-radius: 10px;
   margin-top: 40px;
+  min-width: 420px;
 }
 
 .employee-details-container-1 {
@@ -378,7 +379,7 @@ body {
   border-radius: 5px;
   background: #aaaaaaa8; /* Button Background: #27ae60 (Green Theme) */
   color: #000000;
-  font-size: 16px;
+  font-size: 10px;
   font-family: 'Roboto', sans-serif;
   text-decoration: none;
   text-transform: uppercase;
@@ -389,6 +390,11 @@ body {
   box-sizing: border-box;
   border-radius: 10px;
   z-index: 1; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 320px;
 }
 
 .image-upload-container{
@@ -404,4 +410,31 @@ body {
   cursor: pointer;
   justify-content: center;
   display: inline-block;
+}
+
+.circular-image {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+
+.employee-list-scroll {
+  max-height: 100px; /* Set the maximum height as per your preference */
+  overflow-y: auto; /* Add a vertical scrollbar if the content overflows */
+  scrollbar-color: #27ae60;
+}
+
+.employee-details-button {
+  margin: 5px ;
+  padding: 10px 10px;
+  border: none;
+  background: #27ae60; /* Button Background: #27ae60 (Green Theme) */
+  color: #ffffff; /* Button Text Color: #ffffff */
+  font-size: 16px;
+  font-family: 'Roboto', sans-serif;
+  border-radius: 5px;
+  cursor: pointer;
+  min-width: 120px;
 }
