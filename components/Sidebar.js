@@ -1,28 +1,31 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
-import EmployeeManagement from '../components/EmployeeManagement'; // Adjust the path as needed
 import Settings from '../components/Settings';
-
+import EmployeeManagement from '../components/EmployeeManagement'; // Import the EmployeeDetails component
+import EmployeeList from '../pages/api/viewEmployeeList';
 
 const Sidebar = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
-  const [showContent, setShowContent] = useState(false); // New state to control content display
+  const [showContent, setShowContent] = useState(false);
+  const [showEmployeeDetails, setShowEmployeeDetails] = useState(false); // New state to control employee details display
   const router = useRouter();
 
-  
   const getContentComponent = () => {
     switch (selectedOption) {
       case 'Employee Management':
-        return <EmployeeManagement />;
+        return <EmployeeManagement toggleEmployeeDetailsContainer={toggleEmployeeDetailsContainer} />;
       case 'Settings':
         return <Settings />;
-      // Add cases for other options as you create more components
       default:
         return null;
     }
   };
-  
+
+  // Function to toggle the visibility of the employee details container
+  const toggleEmployeeDetailsContainer = (showEmployeeDetails) => {
+    setShowEmployeeDetails(showEmployeeDetails);
+  };
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
@@ -30,7 +33,7 @@ const Sidebar = () => {
 
   const handleOptionSelect = (option) => {
     setSelectedOption(option);
-    setShowContent(true); // Show content container
+    setShowContent(true);
   };
 
   const handleLogout = () => {
@@ -39,7 +42,8 @@ const Sidebar = () => {
 
   const handleBack = () => {
     setSelectedOption(null);
-    setShowContent(false); // Hide content container
+    setShowContent(false);
+    setShowEmployeeDetails(false); // Hide employee details container
   };
 
   return (
@@ -72,6 +76,13 @@ const Sidebar = () => {
       {showContent && (
         <div className="side-content-container"> {/* Adjust the left position as needed */}
           {getContentComponent()}
+        </div>
+      )}
+
+      {/* Employee details container */}
+      {showEmployeeDetails && (
+        <div className="employee-details-container-1"> {/* Adjust the left position as needed */}
+          <EmployeeList />
         </div>
       )}
     </div>

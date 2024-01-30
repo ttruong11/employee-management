@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ViewEmployeeList from '../pages/api/viewEmployeeList'; // Import the ViewEmployeeList component
 
-const EmployeeManagement = () => {
+const EmployeeManagement = ({ toggleEmployeeDetailsContainer }) => {
   const [employee, setEmployee] = useState({
     firstName: '',
     lastName: '',
@@ -87,6 +87,10 @@ const EmployeeManagement = () => {
       setShowAddEmployeeForm(false); // Hide the add employee form if it's open
     }
   };
+  
+  const handleBackButton = () => {
+    setShowAddEmployeeForm(false);
+  };
 
   return (
     <div className="employee-management-container">
@@ -99,71 +103,68 @@ const EmployeeManagement = () => {
       ) : (
         <>
           {showAddEmployeeForm ? (
-            <button className="employee-management-button" onClick={toggleAddEmployeeForm}>Back</button>
+            <form onSubmit={handleSubmit}>
+              <button className="employee-management-button" onClick={handleBackButton}>Back</button>
+
+              {/* Form input fields here */}
+              <input 
+                type="text" 
+                name="firstName" 
+                value={employee.firstName} 
+                onChange={handleInputChange} 
+                placeholder="First Name"
+                className="employee-content-input"
+              />
+              <input 
+                type="text" 
+                name="lastName" 
+                value={employee.lastName} 
+                onChange={handleInputChange} 
+                placeholder="Last Name"
+                className="employee-content-input"
+              />
+              <input 
+                type="date" 
+                name="dob" 
+                value={employee.dob} 
+                onChange={handleInputChange} 
+                placeholder="Date of Birth"
+                className="employee-content-input"
+              />
+              <select 
+                name="gender" 
+                value={employee.gender} 
+                onChange={handleInputChange}
+                className="employee-content-gender-input"
+              >
+                <option value="">Select Gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+              </select>
+              <input 
+                type="tel" 
+                name="phoneNumber" 
+                value={employee.phoneNumber} 
+                onChange={handleInputChange} 
+                placeholder="Phone Number"
+                className="employee-content-input"
+              />
+              <input 
+                type="email" 
+                name="email" 
+                value={employee.email} 
+                onChange={handleInputChange} 
+                placeholder="Email Address"
+                className="employee-content-input"
+              />
+              {/* Add a submit button here */}
+              <button type="submit" className="employee-management-button">Submit</button>
+            </form>
           ) : (
             <button className="employee-management-button" onClick={toggleAddEmployeeForm}>Add New Employee</button>
           )}
         </>
-      )}
-
-      {/* Conditional rendering of the form based on showAddEmployeeForm state */}
-      {showAddEmployeeForm && (
-        <form onSubmit={handleSubmit}>
-          {/* Form input fields here */}
-          <input 
-            type="text" 
-            name="firstName" 
-            value={employee.firstName} 
-            onChange={handleInputChange} 
-            placeholder="First Name"
-            className="employee-content-input"
-          />
-          <input 
-            type="text" 
-            name="lastName" 
-            value={employee.lastName} 
-            onChange={handleInputChange} 
-            placeholder="Last Name"
-            className="employee-content-input"
-          />
-          <input 
-            type="date" 
-            name="dob" 
-            value={employee.dob} 
-            onChange={handleInputChange} 
-            placeholder="Date of Birth"
-            className="employee-content-input"
-          />
-          <select 
-            name="gender" 
-            value={employee.gender} 
-            onChange={handleInputChange}
-            className="employee-content-gender-input"
-          >
-            <option value="">Select Gender</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-            <option value="other">Other</option>
-          </select>
-          <input 
-            type="tel" 
-            name="phoneNumber" 
-            value={employee.phoneNumber} 
-            onChange={handleInputChange} 
-            placeholder="Phone Number"
-            className="employee-content-input"
-          />
-          <input 
-            type="email" 
-            name="email" 
-            value={employee.email} 
-            onChange={handleInputChange} 
-            placeholder="Email Address"
-            className="employee-content-input"
-          />
-          {/* Add a submit button here */}
-          <button type="submit" className="employee-management-button">Submit</button>
-        </form>
       )}
 
       {/* Include the "Add Another Employee" button after an employee has been added */}
@@ -171,8 +172,9 @@ const EmployeeManagement = () => {
         <button className="employee-management-button" onClick={toggleAddEmployeeForm}>Add Another Employee</button>
       )}
 
-      {/* Include the "View Existing Employee" button that fetches data */}
-      <button className="employee-management-button" onClick={toggleEmployeeList}>View Existing Employee</button>
+      {/* Include the "View Existing Employee" button that toggles the employee details container */}
+      <button className="employee-management-button" onClick={() => toggleEmployeeDetailsContainer(true)}>View Existing Employee</button>
+      
       {/* Conditional rendering of the ViewEmployeeList component */}
       {showEmployeeList && <ViewEmployeeList />}
     </div>
