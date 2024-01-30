@@ -10,6 +10,8 @@ export default async function handler(req, res) {
       phoneNumber,
       email,
       imageUrl,
+      salary,
+      job_role
     } = req.body;
 
     try {
@@ -26,8 +28,8 @@ export default async function handler(req, res) {
 
       // Insert the employee data into the database
       const insertQuery = `
-        INSERT INTO employees (first_name, last_name, dob, gender, phone_number, email, image_url)
-        VALUES ($1, $2, $3, $4, $5, $6, $7)
+        INSERT INTO employees (first_name, last_name, dob, gender, phone_number, email, image_url, salary, job_role)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
       `;
 
       await db.query(insertQuery, [
@@ -38,6 +40,8 @@ export default async function handler(req, res) {
         phoneNumber,
         email,
         imageUrl,
+        salary,
+        job_role,
       ]);
 
       return res.status(200).json({ message: 'Employee added successfully' });

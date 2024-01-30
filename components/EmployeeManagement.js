@@ -9,7 +9,9 @@ const EmployeeManagement = ({ toggleEmployeeDetailsContainer }) => {
     dob: '',
     gender: '',
     phoneNumber: '',
-    email: ''
+    email: '',
+    salary: '',
+    job_role: '',
   });
   const [selectedFile, setSelectedFile] = useState(null);
   const [showAddEmployeeForm, setShowAddEmployeeForm] = useState(false);
@@ -89,7 +91,9 @@ const EmployeeManagement = ({ toggleEmployeeDetailsContainer }) => {
           dob: '',
           gender: '',
           phoneNumber: '',
-          email: ''
+          email: '',
+          salary: '',
+          job_role: ''
         });
         setSelectedFile(null);
         setShowAddEmployeeForm(false);
@@ -155,6 +159,8 @@ const EmployeeManagement = ({ toggleEmployeeDetailsContainer }) => {
               </select>
               <input type="tel" name="phoneNumber" value={employee.phoneNumber} onChange={handleInputChange} placeholder="Phone Number" className="employee-content-input" />
               <input type="email" name="email" value={employee.email} onChange={handleInputChange} placeholder="Email Address" className="employee-content-input" />
+              <input type="number" name="salary" value={employee.salary} onChange={handleInputChange} placeholder="Salary" className="employee-content-input" step="0.01" min="0" max="99999999.99" />
+              <input type="text" name="job_role" value={employee.job_role} onChange={handleInputChange} placeholder="Job Role" className="employee-content-input" />
               <button type="submit" className="employee-management-button">Submit</button>
               <button className="employee-management-button" onClick={handleBackButton}>Back</button>
             </form>

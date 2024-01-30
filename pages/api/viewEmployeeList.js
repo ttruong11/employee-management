@@ -53,8 +53,6 @@ const EmployeeList = () => {
           <thead>
             <tr>
               <th>Name</th>
-              <th>Action</th>
-              <th>Delete</th> {/* Add the "Delete" header column */}
             </tr>
           </thead>
           <tbody>
@@ -86,6 +84,8 @@ const EmployeeList = () => {
           <p>Last Name: {selectedEmployee.last_name}</p>
           <p>Date of Birth: {formatDate(selectedEmployee.dob)}</p>
           <p>Email: {selectedEmployee.email}</p>
+          <p>Job: {selectedEmployee.job_role}</p>
+          <p>Salary: {selectedEmployee.salary}</p>
           <button className="employee-details-button" onClick={() => toggleEmployeeDetails(selectedEmployee)}>Hide Details</button>
         </div>
       )}

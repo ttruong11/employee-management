@@ -232,7 +232,6 @@ body {
   border-radius: 10px;
   z-index: 1; 
   flex-direction: column;
-  min-width: 460px;
 }
 
 .sidebar-open {
@@ -258,10 +257,11 @@ body {
 }
 
 .employee-management-container {
+  display: inline-block;
 }
 
 .employee-management-button {
-  margin-left: 30px ;
+  margin-left: 10px ;
   margin-bottom: 10px;
   padding: 10px 10px;
   border: none;
@@ -272,8 +272,6 @@ body {
   border-radius: 5px;
   cursor: pointer;
   min-width: 200px; /* Minimum width */
-  justify-content: center;
-  display: flex;
 }
 
 /* Add the styles for the employee content input class */
@@ -359,7 +357,7 @@ body {
 
 .employee-list-container {
   position: absolute;
-  top: 35px;
+  top: 5px;
   left: 800px;
   margin: 5px ;
   padding: 10px 10px;
@@ -373,6 +371,7 @@ body {
   border-radius: 10px;
   margin-top: 40px;
   min-width: 420px;
+  max-height: fit-content;
 }
 
 .employee-details-container-1 {
@@ -408,15 +407,14 @@ body {
   overflow: hidden;
   transition: .5s;
   margin-top: 40px;
-  letter-spacing: 4px;
   box-sizing: border-box;
   border-radius: 10px;
   z-index: 1; 
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
   min-width: 320px;
+  overflow-y: auto; /* Add overflow-y for vertical scrolling */
+  max-height: 60vh; /* Set a maximum height to prevent it from covering the entire viewport */
 }
 
 .image-upload-container{
@@ -435,10 +433,15 @@ body {
 }
 
 .circular-image {
-  width: 200px;
-  height: 200px;
+  margin-left: 125px;
+  margin-bottom: 15px;
+  width: 125px;
+  height: 125px;
   border-radius: 50%;
   object-fit: cover;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 
@@ -510,4 +513,9 @@ body {
   max-width: 300px;
   width: 300px;
   height: 400px;
+}
+
+.dashboard-employee-stats {
+  font-size: 20px;
+  font-family: 'Roboto', sans-serif;
 }

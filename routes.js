@@ -42,9 +42,16 @@ router.get('/api/employees', async (req, res) => {
     const query = 'SELECT * FROM employees';
     const { rows } = await pool.query(query);
 
+    // Calculate the sum of salaries
+    const sumQuery = 'SELECT SUM(salary) FROM employees'; // Adjust the table and column names as needed
+    const sumResult = await pool.query(sumQuery);
+    const totalSalarySum = parseFloat(sumResult.rows[0].sum);
+
     // Include additional data (e.g., currentEmployeeCount)
     const additionalData = {
       currentEmployeeCount: rows.length, // This example assumes the count is the length of the 'rows' array
+      totalSalarySum: totalSalarySum, // Include the sum of salaries
+
       // Add other additional data here
     };
 
