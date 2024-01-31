@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router'; // Import useRouter
 import SignupForm from './SignupForm'; // Import the SignupForm component
+import { signIn } from 'next-auth/react';
 
 const LoginForm = () => {
   const [username, setUsername] = useState(''); // State for entered username
@@ -11,29 +12,20 @@ const LoginForm = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault(); // Prevent the default form submission behavior
-
-    try {
-      const response = await fetch(backendURL + '/api/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username, password }),
-      });
-
-      if (response.ok) {
-        console.log('Login successful!');
-        router.push('/dashboard'); // Redirect to /dashboard route
-        setErrorMessage(''); // Clear any previous error message
-      } else {
-        console.error('Login failed. Invalid username or password.');
-        setErrorMessage('Incorrect username and password'); // Set error message
-      }
-    } catch (error) {
-      console.error('Error logging in:', error);
-      setErrorMessage('Login failed. Please try again later.'); // Set a generic error message
+    
+    const result = await signIn('credentials', {
+      redirect: false, 
+      username, 
+      password
+    });
+  
+    if (result?.error) {
+      setErrorMessage('Incorrect username and password');
+    } else {
+      router.push('/dashboard');
     }
   };
+  
 
   const handleSignupButtonClick = () => {
     router.push('/signup'); // Navigate to the /signup route
