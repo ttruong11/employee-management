@@ -5,7 +5,44 @@ const ChatBot = () => {
   const [conversation, setConversation] = useState([]);
   const [selectedTask, setSelectedTask] = useState(null);
   const backendURL = process.env.NEXT_PUBLIC_BACKEND_URL;
+  const employeeInfoQuestions = [
+    'First Name',
+    'Last Name',
+    'Date of Birth (DOB)',
+    'Gender',
+    'Phone Number',
+    'Email',
+    'Image URL',
+    'Salary',
+    'Job Role',
+  ];
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [userResponses, setUserResponses] = useState({});
+  // Define the handleTaskClick function within the ChatBot component
+  const handleTaskClick = (taskNumber) => {
+    // When a task button is clicked, set the selected task and prompt user for input
+    setSelectedTask(taskNumber);
 
+    if (taskNumber === '1' && currentQuestionIndex < employeeInfoQuestions.length) {
+      // User has selected "Add An Employee" task, ask for employee information
+      const currentQuestion = employeeInfoQuestions[currentQuestionIndex];
+      const employeeInfoMessage = {
+        text: `Please provide ${currentQuestion}:`,
+        type: 'bot',
+      };
+      // Display the employee information message and clear the other messages
+      setConversation([employeeInfoMessage]);
+    } else {
+      // Clear the conversation by initializing it with a message for the selected task
+      setConversation([
+        {
+          text: `Task ${taskNumber} selected.`,
+          type: 'bot',
+        },
+      ]);
+    }
+  };
+  
   const handleSendMessage = async () => {
     const userMessage = { text: message, type: 'user' };
     setConversation([...conversation, userMessage]);
@@ -20,44 +57,69 @@ const ChatBot = () => {
       return;
     }
 
-    // Handle other tasks as needed
-    const response = await fetch(backendURL + '/api/chatbot', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ message, task: selectedTask }),
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      const botMessage = { text: data.response, type: 'bot' };
-      setConversation([...conversation, botMessage]);
-      setMessage('');
-    }
-  };
-
-  const handleTaskClick = (taskNumber) => {
-    // When a task button is clicked, set the selected task and prompt user for input
-    setSelectedTask(taskNumber);
-
-    if (taskNumber === '1') {
-      // User has selected "Add An Employee" task, provide information required
+    if (selectedTask === '1' && currentQuestionIndex < employeeInfoQuestions.length) {
+      // User has selected "Add An Employee" task, ask for employee information
+      const currentQuestion = employeeInfoQuestions[currentQuestionIndex];
       const employeeInfoMessage = {
-        text: 'Please provide the following information to add an employee:\n' +
-          '- First Name\n' +
-          '- Last Name\n' +
-          '- Date of Birth (DOB)\n' +
-          '- Gender\n' +
-          '- Phone Number\n' +
-          '- Email\n' +
-          '- Image URL\n' +
-          '- Salary\n' +
-          '- Job Role',
+        text: `Please provide ${currentQuestion}:`,
         type: 'bot',
       };
-      // Display the employee information message and clear the other messages
-      setConversation([employeeInfoMessage]);
+      setConversation([...conversation, employeeInfoMessage]);
+
+      // Update the responses object with the user's response
+      const updatedResponses = { ...userResponses, [currentQuestion]: message };
+      setUserResponses(updatedResponses);
+
+      // Increment the currentQuestionIndex to move to the next question
+      setCurrentQuestionIndex(currentQuestionIndex + 1);
+      setMessage('');
+      return;
+    }
+
+    if (selectedTask === '1' && currentQuestionIndex < employeeInfoQuestions.length) {
+      // User has selected "Add An Employee" task, ask for employee information
+      const currentQuestion = employeeInfoQuestions[currentQuestionIndex];
+      const employeeInfoMessage = {
+        text: `Please provide ${currentQuestion}:`,
+        type: 'bot',
+      };
+    
+      // Check if the current conversation already contains the employeeInfoMessage
+      if (!conversation.some((item) => item.text === employeeInfoMessage.text)) {
+        // Add the employeeInfoMessage only if it's not already in the conversation
+        setConversation((prevConversation) => [...prevConversation, employeeInfoMessage]);
+      }
+    
+      // Update the responses object with the user's response
+      const updatedResponses = { ...userResponses, [currentQuestion]: message };
+      setUserResponses(updatedResponses);
+    
+      // Increment the currentQuestionIndex to move to the next question
+      setCurrentQuestionIndex(currentQuestionIndex + 1);
+      setMessage('');
+      return;
+    } else if (selectedTask === '1' && currentQuestionIndex === employeeInfoQuestions.length) {
+      // User has provided all required information, proceed to submit the data
+      const payload = { responses: userResponses, task: selectedTask };
+      console.log('Sending payload to backend:', payload); // Debugging line
+      const response = await fetch(backendURL + '/api/chatbot', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+    
+      if (response.ok) {
+        const data = await response.json();
+        const botMessage = { text: data.response, type: 'bot' };
+        setConversation([...conversation, botMessage]);
+        setMessage('');
+    
+        // Clear userResponses and reset the currentQuestionIndex when the employee record is inserted successfully
+        setUserResponses({});
+        setCurrentQuestionIndex(0);
+      }
     } else {
       // Clear the conversation by initializing it with a message for the selected task
       setConversation([
@@ -66,7 +128,7 @@ const ChatBot = () => {
           type: 'bot',
         },
       ]);
-    }
+    }    
   };
 
   // useEffect to send a welcome message when the component mounts
@@ -101,7 +163,7 @@ const ChatBot = () => {
                 <div>{item.text}</div>
               ) : (
                 // Render task selection buttons
-                item.text.includes('Please provide the following information') ? (
+                item.text.includes('Please provide') ? (
                   <div>{item.text}</div>
                 ) : (
                   <button

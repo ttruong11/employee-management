@@ -3,33 +3,34 @@ import React, { useState, useEffect } from 'react';
 const EmployeeList = () => {
   const [employees, setEmployees] = useState([]);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
 
   useEffect(() => {
-    fetch('http://localhost:3001/api/employees')
+    fetch(`http://localhost:3001/api/employees?page=${currentPage}&limit=5`)
       .then(response => response.json())
       .then(data => {
-        setEmployees(data.employees); // Update to access employees array in the response
-        console.log('Fetched employees:', data); // Add this line for debugging
+        setEmployees(data.employees);
+        setTotalPages(data.totalPages);
+        console.log('Fetched employees:', data);
       })
       .catch(error => console.error('Error fetching employees:', error));
-  }, []);
+  }, [currentPage]);
 
   const toggleEmployeeDetails = (employee) => {
     setSelectedEmployee(selectedEmployee === employee ? null : employee);
   };
 
   const handleDeleteEmployee = (employee) => {
-    const employeeId = employee.id; // Get the employee_id from the employee object
+    const employeeId = employee.id;
     if (employeeId) {
-      // Make a DELETE request to your server to delete the employee
-      fetch(`http://localhost:3001/api/employees/${employeeId}`, {
+      fetch(`http://localhost:3001/api/employees/${Id}`, {
         method: 'DELETE',
       })
         .then(response => {
           if (response.status === 200) {
-            // If the deletion was successful, update the employees list
-            setEmployees(employees.filter(e => e.id !== employeeId)); // Use 'id' property here
-            setSelectedEmployee(null); // Clear selected employee details
+            setEmployees(employees.filter(e => e.id !== employeeId));
+            setSelectedEmployee(null);
           } else {
             console.error('Error deleting employee:', response.statusText);
           }
@@ -40,15 +41,25 @@ const EmployeeList = () => {
     }
   };
 
-
   const handleUpdateEmployee = (employee) => {
     // Implement the logic to update an employee here
-    // You can open a modal or navigate to a new page for updating employee details
   };
-  
+
   const formatDate = (dateString) => {
     const options = { year: 'numeric', month: 'short', day: 'numeric' };
     return new Date(dateString).toLocaleDateString('en-US', options);
+  };
+
+  const goToNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const goToPreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
   };
 
   return (
@@ -74,6 +85,11 @@ const EmployeeList = () => {
           </tbody>
         </table>
       </div>
+      <div className="pagination-controls">
+        <button onClick={goToPreviousPage} disabled={currentPage === 1}>Previous</button>
+        <span>Page {currentPage} of {totalPages}</span>
+        <button onClick={goToNextPage} disabled={currentPage === totalPages}>Next</button>
+      </div>
       {selectedEmployee && (
         <div className="employee-details-container">
           <h3>Employee Details</h3>
@@ -93,6 +109,5 @@ const EmployeeList = () => {
     </div>
   );
 };
-
 
 export default EmployeeList;

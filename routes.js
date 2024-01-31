@@ -35,29 +35,29 @@ router.delete('/api/employees/:id', async (req, res) => {
 });
 
 
-// API endpoint to retrieve existing employees
 router.get('/api/employees', async (req, res) => {
   try {
-    // Retrieve all employees
-    const query = 'SELECT * FROM employees';
-    const { rows } = await pool.query(query);
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 1;
+    const offset = (page - 1) * limit;
 
-    // Calculate the sum of salaries
-    const sumQuery = 'SELECT SUM(salary) FROM employees'; // Adjust the table and column names as needed
-    const sumResult = await pool.query(sumQuery);
-    const totalSalarySum = parseFloat(sumResult.rows[0].sum);
+    console.log(`Page: ${page}, Limit: ${limit}, Offset: ${offset}`); // Log the pagination parameters
 
-    // Include additional data (e.g., currentEmployeeCount)
-    const additionalData = {
-      currentEmployeeCount: rows.length, // This example assumes the count is the length of the 'rows' array
-      totalSalarySum: totalSalarySum, // Include the sum of salaries
-      // Add other additional data here
-    };
+    const query = 'SELECT * FROM employees ORDER BY id LIMIT $1 OFFSET $2';
+    const { rows } = await pool.query(query, [limit, offset]);
 
-    // Combine employee data and additional data in the response
+    console.log(`Fetched Rows: `, rows); // Log the fetched rows
+
+    const countQuery = 'SELECT COUNT(*) FROM employees';
+    const countResult = await pool.query(countQuery);
+    const totalEmployees = parseInt(countResult.rows[0].count);
+    const totalPages = Math.ceil(totalEmployees / limit);
+
     const responseData = {
       employees: rows,
-      additionalData: additionalData,
+      totalPages: totalPages,
+      currentPage: page,
+      totalEmployees: totalEmployees,
     };
 
     res.status(200).json(responseData);
@@ -66,6 +66,8 @@ router.get('/api/employees', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
+
 
 
 // User registration endpoint
@@ -211,30 +213,47 @@ router.get('/api/users', async (req, res) => {
     });
   });  
 
-  // Define a chatbot route for collecting employee information
-router.post('/api/chatbot', async (req, res) => {
-  const userMessage = req.body.message;
+// routes.js
 
-  // Implement your chatbot logic here to collect employee information
-  // For example, you can split the conversation based on keywords
-  if (userMessage.includes('name')) {
-    // Collect the name and store it temporarily
-    // You can replace this with your own logic to handle employee data
-    const name = userMessage.replace('name:', '').trim();
-    // Store the name in a variable or temporary storage
-    // You can replace this with your own data storage mechanism
-    res.json({ response: `Got it! Now, please provide the email.` });
-  } else if (userMessage.includes('email')) {
-    // Collect the email and insert the employee record into the database
-    // You can replace this with your own logic to handle employee data
-    const email = userMessage.replace('email:', '').trim();
-    // Insert the employee record into your database (replace with your database logic)
-    // Then, respond accordingly
-    res.json({ response: `Employee record inserted successfully.` });
-  } else {
-    res.json({ response: `I'm sorry, I didn't understand. Please provide the name.` });
+router.post('/api/chatbot', async (req, res) => {
+  try {
+    const { responses, task } = req.body; // Destructure 'responses' and 'task' from the request body
+
+    // Assuming you want to process the responses and task here
+    // You can access 'responses' and 'task' like this:
+    // responses is an object containing user responses to questions
+    // task is a string representing the selected task
+
+    if (task === '1') {
+      // Example: If the selected task is 'Add An Employee', you can access responses like this:
+      const firstName = responses['First Name'];
+      const lastName = responses['Last Name'];
+      const dob = responses['Date of Birth (DOB)'];
+      const gender = responses['Gender'];
+      const phoneNumber = responses['Phone Number'];
+      const email = responses['Email'];
+      const imageURL = responses['Image URL'];
+      const salary = responses['Salary'];
+      const jobRole = responses['Job Role'];
+
+
+      // Your logic to process the employee data can go here
+      // For example, inserting the employee data into a database
+
+      // Respond to the client with a success message
+      res.status(200).json({ response: 'Employee data received and processed successfully' });
+    } else {
+      // Handle other tasks or responses here
+
+      // Respond to the client accordingly
+      res.status(200).json({ response: 'Task completed successfully' });
+    }
+  } catch (error) {
+    console.error('Error in chatbot route:', error);
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
+
   
 
 module.exports = router;

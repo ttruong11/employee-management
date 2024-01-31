@@ -11,7 +11,6 @@ const Dashboard = () => {
       <div className="">
       </div>
       <div className="main-content">
-      <ChatBot />
         {/* Your main content goes here */}
         {/* You can add more content or components here as needed */}
       </div>
