@@ -5,6 +5,7 @@ import { useRouter } from "next/router"; // Import the useRouter hook
 const jwt = require('jsonwebtoken');
 
 export default NextAuth({
+  secret: process.env.NEXTAUTH_SECRET,
   providers: [
     CredentialsProvider({
       name: "Credentials",
