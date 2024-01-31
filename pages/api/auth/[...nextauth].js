@@ -3,6 +3,8 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { yourUserValidationFunction } from "../../../lib/authService";
 import { useRouter } from "next/router"; // Import the useRouter hook
 const jwt = require('jsonwebtoken');
+require('dotenv').config();
+
 
 export default NextAuth({
   secret: process.env.NEXTAUTH_SECRET,
