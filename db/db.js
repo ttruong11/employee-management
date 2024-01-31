@@ -1,13 +1,52 @@
-// db.js
-
 const { Pool } = require('pg');
+require('dotenv').config();
 
-const pool = new Pool({
+
+// Default configuration (can be development or a general fallback)
+const defaultConfig = {
   user: 'postgres',
-  host: 'personal-app-db.cx6iaykek6fa.ca-central-1.rds.amazonaws.com', // Add your database host here
-  database: 'employee_management_dev', // Add your database name here
-  password: '', // Use environment variable for password
-  port: 5432, // Default PostgreSQL port
-});
+  host: process.env.DATABASE_HOST,
+  database: 'employee_management_dev',
+  password: process.env.DB_PASSWORD, // Always use environment variable for passwords
+  port: 5432
+};
+
+// Configuration for development environment
+const devConfig = {
+  user: 'postgres',
+  host: process.env.DATABASE_HOST, // Development database host
+  database: 'employee_management_dev',
+  password: process.env.DB_PASSWORD,
+  port: 5432
+};
+
+// Configuration for production environment
+const prodConfig = {
+  user: 'postgres',
+  host: 'prod-db-host', // Production database host
+  database: 'employee_management_prod',
+  password: process.env.DB_PASSWORD,
+  port: 5432
+};
+
+// Configuration for staging environment
+const stagingConfig = {
+  user: 'ezmanage_stg',
+  host: 'staging-db-host', // Staging database host
+  database: 'employee_management_stg',
+  password: process.env.DB_PASSWORD,
+  port: 5432
+};
+
+// Select the appropriate configuration based on NODE_ENV
+const config = process.env.NODE_ENV === 'production'
+  ? prodConfig
+  : process.env.NODE_ENV === 'staging'
+  ? stagingConfig
+  : process.env.NODE_ENV === 'development'
+  ? devConfig
+  : defaultConfig;
+
+const pool = new Pool(config);
 
 module.exports = pool;

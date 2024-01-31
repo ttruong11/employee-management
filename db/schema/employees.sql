@@ -8,7 +8,10 @@ CREATE TABLE IF NOT EXISTS employees (
     dob DATE,
     gender VARCHAR(10),
     phone_number VARCHAR(15),
-    email VARCHAR(100) UNIQUE NOT NULL
+    email VARCHAR(100) UNIQUE NOT NULL,
+    image_url VARCHAR(255),
+    salary DECIMAL(10,2),
+    role VARCHAR(255),
 );
 
 -- Create an index on the email column for faster lookups
