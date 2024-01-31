@@ -3,9 +3,10 @@ import React, { useState, useEffect } from 'react';
 const Home = () => {
   const [currentEmployeeCount, setCurrentEmployeeCount] = useState(0);
   const [totalSalary, setTotalSalary] = useState(0);
+  const backendURL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
   useEffect(() => {
-    fetch('http://localhost:3001/api/employee-metrics')
+    fetch(backendURL + '/api/employee-metrics')
       .then(response => response.json())
       .then(data => {
         setCurrentEmployeeCount(data.currentEmployeeCount);

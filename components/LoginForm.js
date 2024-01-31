@@ -39,10 +39,6 @@ const LoginForm = () => {
     router.push('/signup'); // Navigate to the /signup route
   };
 
-  const handleBackButton = () => {
-    setShowAddEmployeeForm(false);
-  };
-  
   return (
     <div className="login-container">
       <div className="background-banner-container">

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+require('dotenv').config();
 
 const EmployeeList = () => {
   const [employees, setEmployees] = useState([]);
@@ -15,9 +16,10 @@ const EmployeeList = () => {
   });
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
+  const backendURL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
   useEffect(() => {
-    fetch(`http://localhost:3001/api/employees?page=${currentPage}&limit=5`)
+    fetch(backendURL + `/api/employees?page=${currentPage}&limit=5`)
       .then(response => response.json())
       .then(data => {
         setEmployees(data.employees);
@@ -34,7 +36,7 @@ const EmployeeList = () => {
   const handleDeleteEmployee = (employee) => {
     const employeeId = employee.id;
     if (employeeId) {
-      fetch(`http://localhost:3001/api/employees/${employeeId}`, {
+      fetch(backendURL + `/api/employees/${employeeId}`, {
         method: 'DELETE',
       })
         .then(response => {
@@ -75,7 +77,7 @@ const EmployeeList = () => {
     event.preventDefault();
     const updatedEmployee = { ...selectedEmployee, ...editFormData };
 
-    fetch(`http://localhost:3001/api/employees/${updatedEmployee.id}`, {
+    fetch(backendURL + `/api/employees/${updatedEmployee.id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(updatedEmployee),
@@ -86,7 +88,7 @@ const EmployeeList = () => {
         setIsEditing(false);
         setSelectedEmployee(null);
         // Refetch the employee list to reflect the changes
-        fetch(`http://localhost:3001/api/employees?page=${currentPage}&limit=5`)
+        fetch(backendURL + `/api/employees?page=${currentPage}&limit=5`)
           .then(response => response.json())
           .then(data => {
             setEmployees(data.employees);
