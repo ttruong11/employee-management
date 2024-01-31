@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router'; // Import useRouter
 import SignupForm from './SignupForm'; // Import the SignupForm component
-import { signIn } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 
 const LoginForm = () => {
   const [username, setUsername] = useState(''); // State for entered username
@@ -10,22 +10,30 @@ const LoginForm = () => {
   const router = useRouter(); // Initialize the router
   const backendURL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
-  const handleLogin = async (e) => {
-    e.preventDefault(); // Prevent the default form submission behavior
-    
-    const result = await signIn('Credentials', {
-      redirect: false, 
-      username, 
-      password
-    });
-  
-    if (result?.error) {
-      setErrorMessage('Incorrect username and password');
-    } else {
+  const { data: session } = useSession();
+
+  useEffect(() => {
+    if (session) {
       router.push('/dashboard');
     }
-  };
+  }, [session, router]);
+
+const handleLogin = async (e) => {
+  e.preventDefault(); // Prevent the default form submission behavior
   
+  const result = await signIn('Credentials', {
+    redirect: false, 
+    username, 
+    password
+  });
+
+  if (result?.error) {
+    setErrorMessage('Incorrect username and password');
+  } else {
+    router.push('/dashboard');
+  }
+};
+
 
   const handleSignupButtonClick = () => {
     router.push('/signup'); // Navigate to the /signup route
