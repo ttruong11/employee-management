@@ -14,8 +14,7 @@ export default NextAuth({
         password: { label: "Password", type: "password" }
       },
       authorize: async (credentials) => {
-        console.log("Received credentials: ", JSON.stringify(credentials, null, 2));
-        try {
+        try {git a
           const user = await yourUserValidationFunction(credentials.username, credentials.password);
           if (user) {
             console.log("User authenticated: ", user);
