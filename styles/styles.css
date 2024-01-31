@@ -334,7 +334,7 @@ body {
   border:  solid;
   border-bottom: 1px solid #edf0ee; /* Input Border: #edf0ee (Light Gray) */
   background: transparent;
-  color: #000000; /* Text Color: #ffffff */
+  color: #ffffff; /* Text Color: #ffffff */
   border-color: #27ae60; /* Green Border Color on Focus */
   border-radius: 5px;
   font-size: 16px;
@@ -416,6 +416,8 @@ body {
   overflow-y: auto; /* Add overflow-y for vertical scrolling */
   max-height: 60vh; /* Set a maximum height to prevent it from covering the entire viewport */
   max-width: 420px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.6) #27ae60; /* Scrollbar color (track and thumb) */
 }
 
 .image-upload-container{

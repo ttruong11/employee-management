@@ -148,15 +148,15 @@ const EmployeeList = () => {
           )}
           {isEditing ? (
             <form onSubmit={handleUpdateEmployee}>
-              <input type="text" name="first_name" value={editFormData.first_name} onChange={handleEditFormChange} />
-              <input type="text" name="last_name" value={editFormData.last_name} onChange={handleEditFormChange} />
-              <input type="text" name="dob" value={editFormData.dob} onChange={handleEditFormChange} />
-              <input type="email" name="email" value={editFormData.email} onChange={handleEditFormChange} />
-              <input type="text" name="job_role" value={editFormData.job_role} onChange={handleEditFormChange} />
-              <input type="text" name="salary" value={editFormData.salary} onChange={handleEditFormChange} />
-              <input type="text" name="phone_number" value={editFormData.phone_number} onChange={handleEditFormChange} />
-              <button type="submit">Save Changes</button>
-              <button type="button" onClick={toggleEdit}>Cancel</button>
+              <input className="settings-user-input" type="text" name="first_name" value={editFormData.first_name} onChange={handleEditFormChange} />
+              <input className="settings-user-input" type="text" name="last_name" value={editFormData.last_name} onChange={handleEditFormChange} />
+              <input className="settings-user-input" type="text" name="dob" value={editFormData.dob} onChange={handleEditFormChange} />
+              <input className="settings-user-input" type="email" name="email" value={editFormData.email} onChange={handleEditFormChange} />
+              <input className="settings-user-input" type="text" name="job_role" value={editFormData.job_role} onChange={handleEditFormChange} />
+              <input className="settings-user-input" type="text" name="salary" value={editFormData.salary} onChange={handleEditFormChange} />
+              <input className="settings-user-input" type="text" name="phone_number" value={editFormData.phone_number} onChange={handleEditFormChange} />
+              <button className="employee-details-button" type="submit">Save Changes</button>
+              <button className="employee-details-button" type="button" onClick={toggleEdit}>Cancel</button>
             </form>
           ) : (
             <>
@@ -167,7 +167,7 @@ const EmployeeList = () => {
               <p>Job: {selectedEmployee.job_role}</p>
               <p>Salary: {selectedEmployee.salary}</p>
               <p>Phone Number: {selectedEmployee.phone_number}</p>
-              <button className="employee-details-button" onClick={toggleEdit}>Edit</button>
+              <button className="employee-details-button" onClick={toggleEdit}>Update</button>
               <button className="employee-details-button" onClick={() => handleDeleteEmployee(selectedEmployee)}>Delete</button>
             </>
           )}

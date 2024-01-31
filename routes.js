@@ -67,7 +67,7 @@ router.put('/api/employees/:id', async (req, res) => {
 router.get('/api/employees', async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 1;
+    const limit = parseInt(req.query.limit) || 10;
     const offset = (page - 1) * limit;
 
     console.log(`Page: ${page}, Limit: ${limit}, Offset: ${offset}`); // Log the pagination parameters
@@ -96,6 +96,26 @@ router.get('/api/employees', async (req, res) => {
   }
 });
 
+router.get('/api/employee-metrics', async (req, res) => {
+  try {
+    const employeeCountQuery = 'SELECT COUNT(*) FROM employees';
+    const salarySumQuery = 'SELECT SUM(salary) FROM employees';
+
+    const employeeCountResult = await pool.query(employeeCountQuery);
+    const salarySumResult = await pool.query(salarySumQuery);
+
+    const totalEmployees = parseInt(employeeCountResult.rows[0].count);
+    const totalSalary = parseFloat(salarySumResult.rows[0].sum);
+
+    res.status(200).json({
+      currentEmployeeCount: totalEmployees,
+      totalSalarySum: totalSalary,
+    });
+  } catch (error) {
+    console.error('Error fetching employee metrics:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
 
 
 

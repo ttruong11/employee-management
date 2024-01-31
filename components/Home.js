@@ -5,15 +5,16 @@ const Home = () => {
   const [totalSalary, setTotalSalary] = useState(0);
 
   useEffect(() => {
-    fetch('http://localhost:3001/api/employees')
+    fetch('http://localhost:3001/api/employee-metrics')
       .then(response => response.json())
       .then(data => {
-        setCurrentEmployeeCount(data.additionalData.currentEmployeeCount);
-        setTotalSalary(data.additionalData.totalSalarySum); // Update to set total salary
-        console.log('Fetched employee count and total salary:', currentEmployeeCount, totalSalary); // For debugging
+        setCurrentEmployeeCount(data.currentEmployeeCount);
+        setTotalSalary(data.totalSalarySum);
+        console.log('Fetched employee metrics:', data);
       })
-      .catch(error => console.error('Error fetching employee count and total salary:', error));
+      .catch(error => console.error('Error fetching employee metrics:', error));
   }, []);
+  
 
   return (
     <div className="quickstart-container">
