@@ -13,7 +13,7 @@ const LoginForm = () => {
   const handleLogin = async (e) => {
     e.preventDefault(); // Prevent the default form submission behavior
     
-    const result = await signIn('credentials', {
+    const result = await signIn('Credentials', {
       redirect: false, 
       username, 
       password
