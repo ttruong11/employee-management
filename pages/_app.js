@@ -1,11 +1,8 @@
-import '../styles/globals.css'; // Import global styles
-import '../styles/styles.css'; // Import global styles
-import Head from 'next/head'; // Import Head from next/head
-import { BrowserRouter as Router } from 'react-router-dom';
-
-
-import { useEffect } from 'react';
+import { SessionProvider } from 'next-auth/react';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+import { styles } from '../styles/styles.css'
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
@@ -15,13 +12,15 @@ function MyApp({ Component, pageProps }) {
   }, [router.pathname]);
 
   return (
-    <>
-      {/* Add the viewport meta tag here */}
-      <Head>
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-      </Head>
-      <Component {...pageProps} />
-    </>
+    <SessionProvider session={pageProps.session}>
+      <>
+        <Head>
+          <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+        </Head>
+        <Component {...pageProps} />
+      </>
+    </SessionProvider>
   );
 }
+
 export default MyApp;
