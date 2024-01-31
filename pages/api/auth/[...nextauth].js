@@ -14,7 +14,6 @@ export default NextAuth({
         password: { label: "Password", type: "password" }
       },
       authorize: async (credentials) => {
-        console.log("Authorize function called with credentials:", credentials);
         
         const user = await yourUserValidationFunction(credentials.username, credentials.password);
         
