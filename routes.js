@@ -34,7 +34,36 @@ router.delete('/api/employees/:id', async (req, res) => {
   }
 });
 
+// Define the PUT route for updating an employee by ID
+router.put('/api/employees/:id', async (req, res) => {
+  const employeeId = req.params.id; // Get the employee ID from the URL parameter
+  const { first_name, last_name, dob, email, job_role, salary, gender, phone_number } = req.body; // Destructure the updated fields from the request body
 
+  try {
+    // Check if the employee with the given ID exists in the database
+    const queryCheck = 'SELECT * FROM employees WHERE id = $1';
+    const checkResult = await pool.query(queryCheck, [employeeId]);
+
+    if (checkResult.rows.length === 0) {
+      return res.status(404).json({ error: 'Employee not found' });
+    }
+
+    // If the employee exists, perform the UPDATE operation
+    const updateQuery = `
+      UPDATE employees 
+      SET first_name = $1, last_name = $2, dob = $3, email = $4, job_role = $5, salary = $6, gender = $7, phone_number = $8
+      WHERE id = $9
+    `;
+    await pool.query(updateQuery, [first_name, last_name, dob, email, job_role, salary, gender, phone_number, employeeId]);
+
+    res.status(200).json({ message: 'Employee updated successfully' });
+  } catch (error) {
+    console.error('Error updating employee:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+//Define the GET route for determining existing and total number of employees
 router.get('/api/employees', async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;

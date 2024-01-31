@@ -412,9 +412,10 @@ body {
   z-index: 1; 
   display: flex;
   flex-direction: column;
-  min-width: 320px;
+  min-width: 420px;
   overflow-y: auto; /* Add overflow-y for vertical scrolling */
   max-height: 60vh; /* Set a maximum height to prevent it from covering the entire viewport */
+  max-width: 420px;
 }
 
 .image-upload-container{
@@ -433,7 +434,7 @@ body {
 }
 
 .circular-image {
-  margin-left: 100px;
+  margin-left: 120px;
   margin-bottom: 15px;
   width: 150px;
   height: 150px;
@@ -559,4 +560,18 @@ body {
   max-width: 300px;
   width: 300px;
   height: 400px;
+}
+
+.pagination-button {
+  margin: 5px ;
+  margin-top: 25px;
+  padding: 10px 10px;
+  border: none;
+  background: #27ae60; /* Button Background: #27ae60 (Green Theme) */
+  color: #ffffff; /* Button Text Color: #ffffff */
+  font-size: 16px;
+  font-family: 'Roboto', sans-serif;
+  border-radius: 5px;
+  cursor: pointer;
+  min-width: 120px;
 }
