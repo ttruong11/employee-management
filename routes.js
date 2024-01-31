@@ -7,12 +7,23 @@ const multer = require('multer');
 const AWS = require('aws-sdk');
 const path = require('path');
 const fs = require('fs');
+const { body, param, query, validationResult } = require('express-validator');
+
 
 // Define your routes here
 
 // Define the DELETE route for deleting an employee by ID
-router.delete('/api/employees/:id', async (req, res) => {
-  const employeeId = req.params.id; // Get the employee ID from the URL parameter
+router.delete('/api/employees/:id', [
+  // Validate that 'id' is a number
+  param('id').isNumeric()
+], async (req, res) => {
+  // Check for validation errors
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  const employeeId = req.params.id;
 
   try {
     // Check if the employee with the given ID exists in the database
@@ -35,9 +46,26 @@ router.delete('/api/employees/:id', async (req, res) => {
 });
 
 // Define the PUT route for updating an employee by ID
-router.put('/api/employees/:id', async (req, res) => {
+router.put('/api/employees/:id', [
+  // Validation and sanitization rules
+  body('first_name').trim().escape(),
+  body('last_name').trim().escape(),
+  body('dob').isISO8601().toDate(),
+  body('email').isEmail().normalizeEmail(),
+  body('job_role').trim().escape(),
+  body('salary').isNumeric(),
+  body('gender').trim().escape(),
+  body('phone_number').trim().escape()
+], async (req, res) => {
   const employeeId = req.params.id; // Get the employee ID from the URL parameter
-  const { first_name, last_name, dob, email, job_role, salary, gender, phone_number } = req.body; // Destructure the updated fields from the request body
+
+  // Check for validation errors
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  const { first_name, last_name, dob, email, job_role, salary, gender, phone_number } = req.body;
 
   try {
     // Check if the employee with the given ID exists in the database
@@ -63,9 +91,24 @@ router.put('/api/employees/:id', async (req, res) => {
   }
 });
 
-//Define the GET route for determining existing and total number of employees
-router.get('/api/employees', async (req, res) => {
+//Define the GET route for determining existing
+router.get('/api/employees', [
+  // Validate 'page' and 'limit' query parameters
+  query('page').optional().isInt({ min: 1 }),
+  query('limit').optional().isInt({ min: 1 })
+], async (req, res) => {
+  // Check for validation errors
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 10;
+  const offset = (page - 1) * limit;
+
   try {
+
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
     const offset = (page - 1) * limit;
@@ -96,6 +139,7 @@ router.get('/api/employees', async (req, res) => {
   }
 });
 
+//Define the GET route for determining total number of employees
 router.get('/api/employee-metrics', async (req, res) => {
   try {
     const employeeCountQuery = 'SELECT COUNT(*) FROM employees';
@@ -119,10 +163,19 @@ router.get('/api/employee-metrics', async (req, res) => {
 
 
 
-// User registration endpoint
-router.post('/api/register', async (req, res) => {
-    const { username, password, email } = req.body;
-
+// User registration endpoint with input validation and sanitization
+router.post('/api/register', [
+  // Validate and sanitize each field
+  body('username').trim().escape(),
+  body('email').isEmail().normalizeEmail(),
+  body('password').isLength({ min: 6 }).trim().escape()
+], async (req, res) => {
+  // Check for validation errors
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+  const { username, password, email } = req.body;
     try {
       // Check if the username or email already exists in the database
       const checkQuery = 'SELECT * FROM users WHERE username = $1 OR email = $2';
@@ -149,10 +202,21 @@ router.post('/api/register', async (req, res) => {
 });
 
 // User login endpoint
-router.post('/api/login', async (req, res) => {
-    const { username, password } = req.body;
+router.post('/api/login', [
+  // Validate and sanitize the username
+  body('username').trim().escape(),
+  // Validate the password (sanitization is not required for passwords as they will be hashed)
+  body('password').exists()
+], async (req, res) => {
+  // Check for validation errors
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
 
-    try {
+  const { username, password } = req.body;
+
+  try {
       const query = 'SELECT password FROM users WHERE username = $1';
       const { rows } = await pool.query(query, [username]);
   
@@ -191,6 +255,8 @@ router.get('/api/users', async (req, res) => {
     }
   });
 
+    // API endpoint to update the password for a user in users table
+
   router.get('/api/users/get-password/:username', async (req, res) => {
     try {
       const { username } = req.params;
@@ -210,7 +276,7 @@ router.get('/api/users', async (req, res) => {
     }
   });
   
-  // API endpoint to update the username for a user
+  // API endpoint to update the username for a users in users table
   router.put('/api/users/update-username/:username', async (req, res) => {
     try {
       const { username } = req.params;
