@@ -23,8 +23,8 @@ const devConfig = {
 // Configuration for production environment
 const prodConfig = {
   user: 'postgres',
-  host: 'prod-db-host', // Production database host
-  database: 'employee_management_prod',
+  host:  process.env.DATABASE_HOST, // Production database host
+  database: 'employee_management_dev',
   password: process.env.DB_PASSWORD,
   port: 5432
 };
@@ -32,7 +32,7 @@ const prodConfig = {
 // Configuration for staging environment
 const stagingConfig = {
   user: 'ezmanage_stg',
-  host: 'staging-db-host', // Staging database host
+  host: process.env.DATABASE_HOST, // Staging database host
   database: 'employee_management_stg',
   password: process.env.DB_PASSWORD,
   port: 5432
