@@ -295,7 +295,7 @@ router.get('/api/users', async (req, res) => {
   // Configure AWS
   AWS.config.update({
     accessKeyId: process.env.APP_AWS_ACCESS_KEY,
-    secretAccessKey: process.env.APP_AWS_SECRET_ACCESS_KEY_ID
+    secretAccessKey: process.env.APP_AWS_SECRET_ACCESS_KEY_ID,
     region: process.env.APP_AWS_DEFAULT_REGION
   });
   
