@@ -19,7 +19,7 @@ This Employee Management System is designed to streamline the process of managin
 
 ### JWT Authentication
 
-![JWT Authentication](./public/jwt-authentication-menu.png)
+![JWT Authentication](./public/jwt-auth-menu.png)
 
 ## Features
 - **Create Employee Records**: Add new employee details into the system.
@@ -40,6 +40,10 @@ This Employee Management System is designed to streamline the process of managin
   - Nodemon (3.0.1) - A utility that monitors for any changes in your source and automatically restarts your server.
   - Prisma (5.9.0) - Next-generation ORM for Node.js and TypeScript.
   - Sequelize (6.33.0) - A promise-based Node.js ORM for Postgres, MySQL, MariaDB, SQLite, and Microsoft SQL Server.
+
+  - **Database**: 
+
+  - PostgreSQL - Configured to run locally or using an external database connection.
 
 - **Authentication and Security**: 
   - Next-Auth (4.24.5) - Authentication for Next.js.
