@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/router'; // Import useRouter
-import SignupForm from './SignupForm'; // Import the SignupForm component
+import { useRouter } from 'next/router'; 
 import { signIn, useSession } from 'next-auth/react';
 
 const LoginForm = () => {
-  const [username, setUsername] = useState(''); // State for entered username
-  const [password, setPassword] = useState(''); // State for entered password
-  const [errorMessage, setErrorMessage] = useState(''); // State for error message
-  const router = useRouter(); // Initialize the router
-  const backendURL = process.env.NEXT_PUBLIC_BACKEND_URL;
+  const [username, setUsername] = useState(''); 
+  const [password, setPassword] = useState(''); 
+  const [errorMessage, setErrorMessage] = useState(''); 
+  const router = useRouter(); 
 
   const { data: session } = useSession();
 
@@ -19,7 +17,7 @@ const LoginForm = () => {
   }, [session, router]);
 
 const handleLogin = async (e) => {
-  e.preventDefault(); // Prevent the default form submission behavior
+  e.preventDefault(); 
   
   const result = await signIn('Credentials', {
     redirect: false, 
@@ -36,13 +34,12 @@ const handleLogin = async (e) => {
 
 
   const handleSignupButtonClick = () => {
-    router.push('/signup'); // Navigate to the /signup route
+    router.push('/signup'); 
   };
 
   return (
     <div className="login-container">
       <div className="background-banner-container">
-        {/* Content for your background banner */}
       </div>
       <div className="login-form-overlay">
         <div className="login-form-container">
@@ -66,7 +63,7 @@ const handleLogin = async (e) => {
           <button 
             type="button" 
             className="login-button" 
-            onClick={handleSignupButtonClick} // Handle Signup button click
+            onClick={handleSignupButtonClick} 
           >
             Sign-up
           </button>

@@ -4,6 +4,7 @@ import { yourUserValidationFunction } from "../../../lib/authService";
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
+
 export default NextAuth({
   secret: process.env.NEXTAUTH_SECRET,
   providers: [
@@ -14,6 +15,7 @@ export default NextAuth({
         password: { label: "Password", type: "password" }
       },
       authorize: async (credentials) => {
+        console.log(process.env.DATABASE_URL)
         try {
           const user = await yourUserValidationFunction(credentials.username, credentials.password);
           if (user) {
@@ -32,10 +34,12 @@ export default NextAuth({
   ],
   session: {
     jwt: true,
+    maxAge: 3600, 
     // Add session callback for logging
     async session({ session, token, user }) {
       console.log("Session callback: ", { session, token, user });
-      return session; // The returned value is the session that will be used
+      session.accessToken = token; 
+      return session; 
     }
   },
   jwt: {

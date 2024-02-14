@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { useSession } from "next-auth/react";
+
 
 const Settings = () => {
   const [users, setUsers] = useState([]);
@@ -9,6 +11,7 @@ const Settings = () => {
   const [showAllUsers, setShowAllUsers] = useState(true); // State to control the view
   const backendURL = process.env.NEXT_PUBLIC_BACKEND_URL;
   const bcrypt = require('bcryptjs'); // Import bcrypt for password hashing
+  const { data: session } = useSession();
 
   useEffect(() => {
     // Fetch existing users here and set them in the users state
@@ -75,31 +78,45 @@ const Settings = () => {
       
   const handleUpdatePassword = async () => {
     if (!selectedUser) {
-      return; // Handle the case where no user is selected
+      console.error('No user selected');
+      return;
     }
+  
+    if (!session) {
+      console.error('No active session');
+      return;
+    }
+    // Log the entire session object to see its structure
+    console.log('Session object:', session);
+  
+    // Ensure you have the correct token. This might be `session.token` or similar,
+    // depending on your NextAuth configuration
+    const token = session.token; // Adjust this line based on your session structure
+    console.log('Token being sent:', token);
 
+  
     try {
-      const response = await fetch(backendURL + `/api/users/update-username/${selectedUser.username}`, {
+      const response = await fetch(backendURL + `/api/users/update-password/${selectedUser.username}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}` // Use the correct token here
         },
-        body: JSON.stringify({ newPassword }),
+        body: JSON.stringify({
+          newPassword: newPassword,
+        }),
       });
-
+  
       if (response.ok) {
         console.log('Password updated successfully!');
-        // Handle success, maybe update the UI or show a success message
       } else {
         console.error('Error updating password:', response.statusText);
-        // Handle error, display an error message to the user
       }
     } catch (error) {
       console.error('Error updating password:', error);
-      // Handle error, display an error message to the user
     }
   };
-
+    
   return (
     <div className="settings-container">
       <h2>Settings</h2>

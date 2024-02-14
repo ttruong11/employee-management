@@ -10,7 +10,7 @@ const SignupForm = () => {
   const backendURL = process.env.NEXT_PUBLIC_BACKEND_URL;
   
   const handleBackButton = () => {
-    router.push('/'); // Redirects the user to the root page
+    router.push('/'); 
   };
   
 
@@ -29,11 +29,11 @@ const SignupForm = () => {
 
       if (response.status === 201 || response.status === 204) {
         console.log('Registration successful!');
-        setUsername(''); // Clear the input fields
+        setUsername(''); 
         setPassword('');
         setEmail('');
-        setErrorMessage(''); // Clear any previous error message
-        router.push('/'); // Redirect to the root page after successful registration
+        setErrorMessage(''); 
+        router.push('/'); 
       } else {
         const errorData = await response.json();
         console.error('Registration failed:', errorData.error);
@@ -48,7 +48,6 @@ const SignupForm = () => {
   return (
     <div className="login-container">
       <div className="background-banner-container">
-        {/* Content for your background banner */}
       </div>
       <div className="login-form-overlay">
         <div className="login-form-container">

@@ -1,18 +1,17 @@
 /* styles.module.css */
 
 html {
-    /* Set the background on the html element to cover the entire viewport */
-    background-image: url('/mountains.jpg'); /* Replace with your image path */
+    background-image: url('/mountains.jpg'); 
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
-    background-repeat: no-repeat; /* Prevent the background image from repeating */
+    background-repeat: no-repeat; 
     height: 100%;
     
   }
 
 body {
-    /* Add body-specific styles if needed */
+
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -21,19 +20,19 @@ body {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    border-color: #27ae60; /* Green Border Color on Focus */
+    border-color: #27ae60; 
 
   }
 
   input {
-    outline-color: #27ae60; /* Optional: Remove the focus outline */
+    outline-color: #27ae60; 
   }
   
   .login-form-container {
     padding: 10px 20px;
     border-radius: 5px;
-    color: #ffffff; /* Text Color: #ffffff */
-    background: rgba(0, 0, 0, 0.281); /* Background: #ffffff (White) */
+    color: #ffffff; 
+    background: rgba(0, 0, 0, 0.281); 
     font-size: 16px;
     font-family: 'Roboto', sans-serif;
     text-decoration: none;
@@ -47,10 +46,10 @@ body {
     z-index: 1;
     display: flex;
     flex-direction: column;
-    align-items: center; /* Center horizontally */
-    justify-content: center; /* Center vertically */
-    width: 400px; /* You can adjust as needed */
-    height: 400px; /* You can adjust as needed */
+    align-items: center; 
+    justify-content: center; 
+    width: 400px;
+    height: 400px; 
     margin-right: 40px;
   }
   
@@ -61,7 +60,7 @@ body {
     width: 20%;
     height: 100%;
     background-color: #27ae60;
-    z-index: -1; /* Place it behind the login form container */
+    z-index: -1; 
   }
 
   .login-form-container form {
@@ -76,34 +75,34 @@ body {
     margin: 10px 0;
     padding: 10px;
     border: none;
-    border-bottom: 1px solid #edf0ee; /* Input Border: #edf0ee (Light Gray) */
+    border-bottom: 1px solid #edf0ee;
     background: transparent;
-    color: #ffffff; /* Text Color: #ffffff */
-    border-color: #27ae60; /* Green Border Color on Focus */
+    color: #ffffff; 
+    border-color: #27ae60; 
     font-size: 16px;
     font-family: 'Roboto', sans-serif;
-    transition: color 0.3s, box-shadow 0.3s; /* Transition color and box-shadow */
+    transition: color 0.3s, box-shadow 0.3s;
   }
   
   .login-form-container input:hover {
-    box-shadow: 0 0 5px 3px rgba(39, 174, 96, 0.5); /* Green Border Shadow on Hover */
+    box-shadow: 0 0 5px 3px rgba(39, 174, 96, 0.5);
   }
 
   .login-form-container input:focus {
-    border-bottom: 1px solid #27ae60; /* Input Border: #edf0ee (Light Gray) */
-    border-color: #27ae60; /* Green Border Color on Focus */
+    border-bottom: 1px solid #27ae60;
+    border-color: #27ae60; 
   }
 
   .login-input {
-    color: #ffffff; /* Text Color: #ffffff */
+    color: #ffffff; 
   }
   
   .login-form-container button {
     margin: 5px ;
     padding: 10px 10px;
     border: none;
-    background: #27ae60; /* Button Background: #27ae60 (Green Theme) */
-    color: #ffffff; /* Button Text Color: #ffffff */
+    background: #27ae60; 
+    color: #ffffff;
     font-size: 16px;
     font-family: 'Roboto', sans-serif;
     border-radius: 5px;
@@ -111,31 +110,30 @@ body {
   }
 
   .login-form-container button:hover {
-    background: #ffffff; /* Button Background: #27ae60 (Green Theme) */
-    color: #27ae60; /* Button Text Color: #ffffff */
+    background: #ffffff; 
+    color: #27ae60; 
   }
 
   .image-container {
-    /* Create a container for the image on the left */
-    flex: 1; /* Take up one-third of the available horizontal space */
-    background-size: cover; /* Make the background image cover the entire container */
-    background-position: center; /* Center the background image */
+    flex: 1; 
+    background-size: cover; 
+    background-position: center; 
   }
   
 
 .background-banner-container {
-  flex: 1; /* Take up all available horizontal space */
+  flex: 1;
   background-color: rgba(0, 0, 0, 0.281);
   width: 500px;
-  /* Add other styles for the background banner */
+
 }
 
 .login-form-overlay {
-  flex: 1; /* Take up all available horizontal space */
+  flex: 1; 
   display: flex;
   justify-content: center;
   align-items: center;
-  /* Add other styles for the overlay container */
+
 }
 
 .dashboard-button {
@@ -145,14 +143,14 @@ body {
 }
 
 .error-message {
-  color: #ff0000; /* Red color for error message */
-  background-color: #ffffff; /* White background */
+  color: #ff0000; 
+  background-color: #ffffff; 
   border-radius: 5px;
   padding: 10px;
   margin-top: 10px;
   text-align: center;
   align-items: center;
-  width: 80%; /* Adjust as needed */
+  width: 80%;
   font-family: 'Roboto', sans-serif;
   font-size: 10px;
   box-shadow: 0 15px 25px rgba(0, 0, 0, 0.281);
@@ -163,9 +161,9 @@ body {
   position: fixed;
   top: 20px;
   left: 20px;
-  width: 40px; /* Set the width and height to be equal */
+  width: 40px; 
   height: 40px;
-  border-radius: 50%; /* Apply border-radius to make it a circle */
+  border-radius: 50%; 
   box-shadow: 0 15px 25px rgba(0, 0, 0, 0.281);
   background:rgba(0, 0, 0, 0.281);
 }
@@ -175,9 +173,9 @@ body {
   position: fixed;
   top: 20px;
   left: 20px;
-  width: 40px; /* Set the width and height to be equal */
+  width: 40px; 
   height: 40px;
-  border-radius: 50%; /* Apply border-radius to make it a circle */
+  border-radius: 50%; 
   box-shadow: 0 15px 25px rgba(0, 0, 0, 0.281);
   background:#27ae60;
   border-color: #ffffff;
@@ -247,13 +245,13 @@ body {
   margin: 5px ;
   padding: 10px 10px;
   border: none;
-  background: #27ae60; /* Button Background: #27ae60 (Green Theme) */
-  color: #ffffff; /* Button Text Color: #ffffff */
+  background: #27ae60; 
+  color: #ffffff; 
   font-size: 16px;
   font-family: 'Roboto', sans-serif;
   border-radius: 5px;
   cursor: pointer;
-  min-width: 200px; /* Minimum width */
+  min-width: 200px;
 }
 
 .employee-management-container {
@@ -266,22 +264,22 @@ body {
   margin-bottom: 10px;
   padding: 10px 10px;
   border: none;
-  background: #27ae60; /* Button Background: #27ae60 (Green Theme) */
-  color: #ffffff; /* Button Text Color: #ffffff */
+  background: #27ae60; 
+  color: #ffffff; 
   font-size: 16px;
   font-family: 'Roboto', sans-serif;
   border-radius: 5px;
   cursor: pointer;
-  min-width: 200px; /* Minimum width */
+  min-width: 200px; 
 }
 
-/* Add the styles for the employee content input class */
+
 .employee-content-input {
   margin: 10px;
   padding: 10px 10px;
   border: none;
-  background: #ffffff; /* Button Background: #27ae60 (Green Theme) */
-  color: #000000; /* Button Text Color: #ffffff */
+  background: #ffffff; 
+  color: #000000; 
   font-size: 16px;
   font-family: 'Roboto', sans-serif;
   border-radius: 5px;
@@ -294,8 +292,8 @@ body {
   padding: 10px 10px;
   margin-left: 10px;
   border: none;
-  background: #ffffff; /* Button Background: #27ae60 (Green Theme) */
-  color: #000000; /* Button Text Color: #ffffff */
+  background: #ffffff; 
+  color: #000000; 
   font-size: 16px;
   font-family: 'Roboto', sans-serif;
   border-radius: 5px;
@@ -308,20 +306,20 @@ body {
   margin: 5px ;
   padding: 10px 10px;
   border: none;
-  background: #27ae60; /* Button Background: #27ae60 (Green Theme) */
-  color: #ffffff; /* Button Text Color: #ffffff */
+  background: #27ae60; 
+  color: #ffffff; 
   font-size: 16px;
   font-family: 'Roboto', sans-serif;
   border-radius: 5px;
   cursor: pointer;
-  min-width: 200px; /* Minimum width */
+  min-width: 200px; 
 }
 .settings-user-button {
   margin: 5px ;
   padding: 10px 10px;
   border: none;
-  background: #27ae60; /* Button Background: #27ae60 (Green Theme) */
-  color: #ffffff; /* Button Text Color: #ffffff */
+  background: #27ae60; 
+  color: #ffffff;
   font-size: 16px;
   font-family: 'Roboto', sans-serif;
   border-radius: 5px;
@@ -332,10 +330,10 @@ body {
   margin: 10px 0;
   padding: 10px;
   border:  solid;
-  border-bottom: 1px solid #edf0ee; /* Input Border: #edf0ee (Light Gray) */
+  border-bottom: 1px solid #edf0ee; 
   background: transparent;
-  color: #ffffff; /* Text Color: #ffffff */
-  border-color: #27ae60; /* Green Border Color on Focus */
+  color: #ffffff; 
+  border-color: #27ae60;
   border-radius: 5px;
   font-size: 16px;
   font-family: 'Roboto', sans-serif;
@@ -347,8 +345,8 @@ body {
   margin: 5px ;
   padding: 10px 10px;
   border: none;
-  background: #27ae60; /* Button Background: #27ae60 (Green Theme) */
-  color: #ffffff; /* Button Text Color: #ffffff */
+  background: #27ae60;
+  color: #ffffff; 
   font-size: 16px;
   font-family: 'Roboto', sans-serif;
   border-radius: 5px;
@@ -363,7 +361,7 @@ body {
   margin: 5px ;
   padding: 10px 10px;
   border: none;
-  color: #FFFFFF; /* Button Text Color: #ffffff */
+  color: #FFFFFF;
   background: rgba(0, 0, 0, 0.5);
   overflow: hidden;
   letter-spacing: 4px;
@@ -399,7 +397,7 @@ body {
   left: 800px;
   padding: 10px 20px;
   border-radius: 5px;
-  background: #aaaaaaa8; /* Button Background: #27ae60 (Green Theme) */
+  background: #aaaaaaa8; 
   font-size: 10px;
   font-family: 'Roboto', sans-serif;
   text-decoration: none;
@@ -413,11 +411,11 @@ body {
   display: flex;
   flex-direction: column;
   min-width: 420px;
-  overflow-y: auto; /* Add overflow-y for vertical scrolling */
+  overflow-y: auto;
   max-height: 60vh; /* Set a maximum height to prevent it from covering the entire viewport */
   max-width: 420px;
   scrollbar-width: thin;
-  scrollbar-color: rgba(0, 0, 0, 0.6) #27ae60; /* Scrollbar color (track and thumb) */
+  scrollbar-color: rgba(0, 0, 0, 0.6) #27ae60; 
 }
 
 .image-upload-container{
@@ -448,7 +446,6 @@ body {
 }
 
 .circular-image-2 {
-  margin-left: 70px;
   margin-bottom: 15px;
   width: 125px;
   height: 125px;
@@ -457,23 +454,20 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  min-width: 150px;
 }
 
 
-/* Assuming the class .employee-list-scroll represents the container */
 .employee-list-scroll {
-  /* Set the height and overflow to create a scrollable container */
-  height: 167px; /* Set the desired height */
+  height: 167px; 
   overflow-y: auto; /* Enable vertical scrollbar when content exceeds container height */
-  /* Define the styles for the scrollbar */
   scrollbar-width: thin;
-  scrollbar-color: rgba(0, 0, 0, 0.6) #27ae60; /* Scrollbar color (track and thumb) */
+  scrollbar-color: rgba(0, 0, 0, 0.6) #27ae60; 
 }
 
-/* Define the styles for the scrollbar thumb (handle) */
 .employee-list-scroll::-webkit-scrollbar-thumb {
-  background-color: #27ae60; /* Thumb color */
-  border-radius: 5px; /* Rounded corners for the thumb */
+  background-color: #27ae60; 
+  border-radius: 5px;
 }
 
 /* Define the styles for the scrollbar track (the background of the scrollbar) */
@@ -491,8 +485,8 @@ body {
   margin: 5px ;
   padding: 10px 10px;
   border: none;
-  background: #27ae60; /* Button Background: #27ae60 (Green Theme) */
-  color: #ffffff; /* Button Text Color: #ffffff */
+  background: #27ae60; 
+  color: #ffffff;
   font-size: 16px;
   font-family: 'Roboto', sans-serif;
   border-radius: 5px;
@@ -524,7 +518,7 @@ body {
   position: absolute;
   padding: 10px 20px;
   border-radius: 5px;
-  background: rgba(0, 0, 0, 0.5); /* Button Background: #27ae60 (Green Theme) */
+  background: rgba(0, 0, 0, 0.5); 
   max-width: 300px;
   width: 300px;
   height: 400px;
@@ -558,7 +552,7 @@ body {
   padding: 10px 20px;
   border-radius: 5px;
   color: #FFFFFF;
-  background: rgba(0, 0, 0, 0.5); /* Button Background: #27ae60 (Green Theme) */
+  background: rgba(0, 0, 0, 0.5); 
   max-width: 300px;
   width: 300px;
   height: 400px;
@@ -569,11 +563,31 @@ body {
   margin-top: 25px;
   padding: 10px 10px;
   border: none;
-  background: #27ae60; /* Button Background: #27ae60 (Green Theme) */
-  color: #ffffff; /* Button Text Color: #ffffff */
+  background: #27ae60;
+  color: #ffffff; 
   font-size: 16px;
   font-family: 'Roboto', sans-serif;
   border-radius: 5px;
   cursor: pointer;
   min-width: 120px;
+}
+
+.employee-page-container {
+  top: 35px;
+  padding: 10px 20px;
+  border-radius: 5px;
+  background: #aaaaaaa8; 
+  font-size: 10px;
+  font-family: 'Roboto', sans-serif;
+  text-decoration: none;
+  text-transform: uppercase;
+  overflow: hidden;
+  transition: .5s;
+  margin-top: 40px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  z-index: 1; 
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto; 
 }

@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 import LoginForm from '../components/LoginForm';
 
 const Home = () => {
-  const [showSignupForm, setShowSignupForm] = useState(true); // State to control form visibility
+  const [showSignupForm, setShowSignupForm] = useState(true); 
 
-  // Callback function to hide the signup form after successful registration
   const handleSignupSuccess = () => {
     setShowSignupForm(false);
   };

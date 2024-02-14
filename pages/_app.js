@@ -8,7 +8,6 @@ function MyApp({ Component, pageProps }) {
   const router = useRouter();
 
   useEffect(() => {
-    // Your global side effect code here (if any)
   }, [router.pathname]);
 
   return (

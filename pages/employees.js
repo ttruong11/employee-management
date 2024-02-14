@@ -18,18 +18,15 @@ const EmployeesPage = () => {
       <h1>Employees</h1>
       <div className="employee-card-container">
         {employees.map(employee => (
-          <div className="employee-details-container" key={employee.employee_id}>
+          <div className="employee-page-container" key={employee.employee_id}>
             <h3>Employee Details</h3>
             {employee.image_url && (
             <img src={employee.image_url} className="circular-image-2" alt={`${employee.first_name} ${employee.last_name}`} />
           )}
             <p>First Name: {employee.first_name}</p>
             <p>Last Name: {employee.last_name}</p>
-            <p>Date of Birth: {employee.dob}</p>
-            <p>Email: {employee.email}</p>
             <p>Job: {employee.job_role}</p>
-            <p>Salary: {employee.salary}</p>
-            {/* Display other employee information as needed */}
+
           </div>
         ))}
       </div>

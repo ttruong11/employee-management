@@ -8,6 +8,8 @@ const AWS = require('aws-sdk');
 const path = require('path');
 const fs = require('fs');
 const { body, param, query, validationResult } = require('express-validator');
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 
 // Define your routes here
@@ -255,8 +257,7 @@ router.get('/api/users', async (req, res) => {
     }
   });
 
-    // API endpoint to update the password for a user in users table
-
+    // API endpoint to require current users password entereed to compare to existing hashedPassword.
   router.get('/api/users/get-password/:username', async (req, res) => {
     try {
       const { username } = req.params;
@@ -289,6 +290,42 @@ router.get('/api/users', async (req, res) => {
       res.status(500).json({ error: 'Internal server error' });
     }
   });
+
+  router.put('/api/users/update-password/:username', async (req, res) => {
+    try {
+      const { username } = req.params;
+      const { newPassword } = req.body;
+      const authHeader = req.headers.authorization;
+  
+      if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        return res.status(401).json({ error: 'No token provided' });
+      }
+  
+      const token = authHeader.split(' ')[1];
+      const decodedToken = jwt.verify(token, process.env.NEXTAUTH_SECRET);
+  
+      if (!decodedToken || decodedToken.name !== username) {
+        return res.status(401).json({ error: 'Unauthorized' });
+      }
+  
+      // Hash the new password
+      const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+  
+      // Update the password in the database
+      const queryUpdate = 'UPDATE users SET password = $1 WHERE username = $2';
+      await pool.query(queryUpdate, [hashedNewPassword, username]);
+      res.status(200).json({ message: 'Password updated successfully' });
+  
+    } catch (error) {
+      if (error.name === 'JsonWebTokenError') {
+        console.error('Invalid token:', error);
+        res.status(401).json({ error: 'Invalid token' });
+      } else {
+        console.error('Error updating password:', error);
+        res.status(500).json({ error: 'Internal server error' });
+      }
+    }
+  });  
   
   const upload = multer({ dest: 'uploads/' });
 

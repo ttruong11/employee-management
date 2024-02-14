@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Settings from '../components/Settings';
-import EmployeeManagement from '../components/EmployeeManagement'; // Import the EmployeeDetails component
+import EmployeeManagement from '../components/EmployeeManagement'; 
 import EmployeeList from '../pages/api/viewEmployeeList';
 import Home from './Home';
 
@@ -9,7 +9,7 @@ const Sidebar = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
   const [showContent, setShowContent] = useState(false);
-  const [showEmployeeDetails, setShowEmployeeDetails] = useState(false); // New state to control employee details display
+  const [showEmployeeDetails, setShowEmployeeDetails] = useState(false);
   const router = useRouter();
 
   const getContentComponent = () => {
@@ -25,7 +25,6 @@ const Sidebar = () => {
     }
   };
 
-  // Function to toggle the visibility of the employee details container
   const toggleEmployeeDetailsContainer = (showEmployeeDetails) => {
     setShowEmployeeDetails(showEmployeeDetails);
   };
@@ -46,11 +45,10 @@ const Sidebar = () => {
   const handleBack = () => {
     setSelectedOption(null);
     setShowContent(false);
-    setShowEmployeeDetails(false); // Hide employee details container
+    setShowEmployeeDetails(false); 
   };
 
   useEffect(() => {
-    // Reset all relevant states when the sidebar is closed
     if (!sidebarOpen) {
       setSelectedOption(null);
       setShowContent(false);
@@ -84,7 +82,6 @@ const Sidebar = () => {
         )}
       </div>
 
-      {/* Content container */}
       {showContent && (
         <div className="side-content-container"> {/* Adjust the left position as needed */}
           {getContentComponent()}

@@ -125,10 +125,8 @@ const EmployeeManagement = ({ toggleEmployeeDetailsContainer }) => {
   };
 
   const handleViewExistingEmployee = () => {
-    // Toggle the employee-details-container-1 state
     toggleEmployeeDetailsContainer(prevState => !prevState);
   
-    // Close the employee management form if it's open
     if (showAddEmployeeForm) {
       setShowAddEmployeeForm(false);
     }
