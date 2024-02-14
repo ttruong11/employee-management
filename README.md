@@ -76,6 +76,9 @@ These instructions will get you a copy of the project up and running on your loc
    ```sh
    git clone https://github.com/ttruong11/employee-management.git
    ```
+2. Run `npm install` in the cloned directory.
+3. Run `npm run dev` to start the Frontend & then run `node server.js` to start the Backend.
+4. You should be able to visit the application at: `localhost:3000` for the Frontend, and `localhost:3001` for the Backend.
 
 ## API Routes
 
